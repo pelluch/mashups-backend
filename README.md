@@ -27,9 +27,13 @@ Se ha escogido Git para el manejo de versiones, y específicamente se ha elegido
 
 + Elegimos GitHub por ser el proveedor más completo de Git, además de ser gratis para estudiantes.
 
+## Sistema de trackeo de tareas
+
+Se ha decidido usar [Trello](www.trello.com) para trackear las tareas de cada módulo y así saber en qué trabaja cada miembro.
+
 ## Servidor de development y publish
 
-Se ha elegido Heroku como el proveedor de servidores de development y publish. La razón de esto es que es gratuito, se acopla fácilmente con Ruby on Rails y la base de datos SQL, y permite la inclusión de una gran cantidad de Add-Ons como Rollbar, New Relic, SendGrid, etc.
+Se ha elegido [Heroku](www.heroku.com) como el proveedor de servidores de development y publish. La razón de esto es que es gratuito, se acopla fácilmente con Ruby on Rails y la base de datos SQL, y permite la inclusión de una gran cantidad de Add-Ons como Rollbar, New Relic, SendGrid, etc.
 
 ## Estándar de codificación
 

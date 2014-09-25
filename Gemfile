@@ -16,6 +16,8 @@ gem 'faraday', '~> 0.9.0'
 
 gem 'sqlite3', '~> 1.3.9', group: [ :development, :test ]
 
+gem 'simple-rss', '~> 1.3.1'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

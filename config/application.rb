@@ -25,6 +25,5 @@ module MashupsBackend
   end
 end
 
-require 'classifiers/textalytics'
-
-
+require 'ai'
+require 'parser'

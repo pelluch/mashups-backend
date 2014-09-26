@@ -1,0 +1,2 @@
+
+require 'ai/classifiers/textalytics'

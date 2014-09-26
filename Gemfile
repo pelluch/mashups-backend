@@ -19,6 +19,9 @@ gem 'active_model_serializers', '~> 0.9.0'
 # Flexible authentication solution for Rails with Warden
 gem 'devise', '~> 3.3.0'
 
+# Rails REST API documentation tool
+gem 'apipie-rails', '~> 0.2.6'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1'

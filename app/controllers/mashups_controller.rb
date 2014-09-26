@@ -1,0 +1,5 @@
+class MashupsController < ApplicationController
+
+
+
+end

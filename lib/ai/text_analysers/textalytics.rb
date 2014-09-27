@@ -6,7 +6,7 @@ module AI
 			MEDIA_API_URL = "https://textalytics.com"
 			MEDIA_ANALYSIS_KEY = "0aa15ee8dc0ec1567fb6ebb48a60241f"
 
-			def self.analyze(url, language = "es", source = "TWITTER", fields = "")
+			def analyse_text(url, language = "es", source = "TWITTER", fields = "")
 
 				doc = {
 					source: source,

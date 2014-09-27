@@ -25,5 +25,4 @@ module MashupsBackend
   end
 end
 
-require 'ai'
-require 'parser'
+Dir["#{File.dirname(__FILE__)}/lib/**/*.rb"].each { |f| load(f) }

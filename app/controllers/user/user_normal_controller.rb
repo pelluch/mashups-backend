@@ -1,4 +1,4 @@
-class UserControllerNormal < UserController
+class User::UserNormalController < UserController
   
   #Generar una cuenta normal
   def create

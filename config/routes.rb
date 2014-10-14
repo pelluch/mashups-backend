@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  
+  namespace :user do
+    get '/auth/:provider/callback' => 'sessions_facebook#create'
+    get '/signout' => 'sessions_facebook#destroy', :as => :signout
+    get '/signin' => 'sessions_facebook#new', :as => :signin
+
+    get '/home' => 'sessions_facebook#home'
+  end
+
   resources :mashups
  
   # The priority is based upon order of creation: first created -> highest priority.

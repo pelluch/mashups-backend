@@ -1,14 +1,21 @@
-class UserController < ApplicationController
-    
+class User::UserController < ApplicationController
+  skip_before_action  :authenticate, only [:index, :show]
+  before_action       :set_user, except [:index, :create, :update]
 
   #Se retorna un .json con todos los usuarios
   def index
-  	
+  	@users = User.all
+
+    respond_to do |format|      
+      format.json { render json: @users }
+    end
   end
 
   #Dado un usuario se debe retornar un .json con los datos del usuario y sus mashups  
-  def show
-  	
+  def show        
+    respond_to do |format|      
+      format.json { render json: @user }
+    end
   end
 
   #Se sobrescribe, esto genera un usuario
@@ -22,8 +29,16 @@ class UserController < ApplicationController
   end
 
   #Borra un usuario
-  def destroy
-  	
+  def destroy    
+  	@user.destroy
+      respond_to do |format|        
+        format.json { head :no_content }
+      end
   end
+
+  private
+      def set_user
+        @user = User.find(params[:id])
+      end
 
 end

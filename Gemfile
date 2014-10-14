@@ -17,7 +17,7 @@ gem 'rack-timeout', '~> 0.0.4'
 gem 'active_model_serializers', '~> 0.9.0'
 
 # Flexible authentication solution for Rails with Warden
-gem 'devise', '~> 3.3.0'
+# gem 'devise', '~> 3.3.0'
 
 # Rails REST API documentation tool
 gem 'apipie-rails', '~> 0.2.6'

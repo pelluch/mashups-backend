@@ -2,66 +2,59 @@ module Mashup
   class MashupsController < ApplicationController
     before_action :set_mashup, only: [:show, :edit, :update, :destroy]
 
-    # GET /mashups
-    # GET /mashups.json
-    def index
-      @mashups = Mashup.all
+  # GET /mashups
+  # GET /mashups.json
+  def index
+    @mashups = User.find(params[:id]).mashups
 
-      respond_to do |format|      
-        format.json { render json: @mashups }
+    respond_to do |format|
+      format.json { render json: @mashups }
+    end
+
+  # GET /mashups/1
+  # GET /mashups/1.json
+  def show
+    @mashup = Mashup.find(params[:id])    
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @mashup }
+    end
+  end
+
+  # POST /mashups
+  # POST /mashups.json
+  def create
+    @mashup = @user.temporal.clone
+
+    respond_to do |format|
+      if @mashup.save
+        format.json { render json: @mashup, status: :created }
+      else
+        format.json { render json: @mashup.errors, status: :unprocessable_entity }
       end
     end
 
-    # GET /mashups/1
-    # GET /mashups/1.json
-    def show
-      respond_to do |format|      
-        format.json { render json: @mashup }
+  # PATCH/PUT /mashups/1
+  # PATCH/PUT /mashups/1.json
+  def update
+
+    respond_to do |format|
+      if @user.temporal.update(mashup_params)
+        format.json { render jason: @user.temporal }
+      else
+        format.json { render json: @user.temporal.errors, status: :unprocessable_entity }
       end
     end
 
-    # GET /mashups/new
-    def new
-      @mashup = Mashup.new
-    end
-
-    # GET /mashups/1/edit
-    def edit
-    end
-
-    # POST /mashups
-    # POST /mashups.json
-    def create
-      @mashup = Mashup.new(mashup_params)
-      respond_to do |format|
-        if @mashup.save        
-          format.json { render json: @mashup, status: :created }
-        else        
-          format.json { render json: @mashup.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-
-    # PATCH/PUT /mashups/1
-    # PATCH/PUT /mashups/1.json
-    def update
-      respond_to do |format|
-        if @mashup.update(mashup_params)        
-          format.json { head :no_content }
-        else        
-          format.json { render json: @mashup.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-
-    # DELETE /mashups/1
-    # DELETE /mashups/1.json
-    def destroy
-      @mashup.destroy
-      respond_to do |format|
-        format.html { redirect_to mashups_url }
-        format.json { head :no_content }
-      end
+  # DELETE /mashups/1
+  # DELETE /mashups/1.json
+  def destroy
+    @mashup.destroy
+    
+    respond_to do |format|
+      format.html { redirect_to mashups_url }
+      format.json { head :no_content }
     end
 
     private

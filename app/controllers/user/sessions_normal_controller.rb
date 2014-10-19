@@ -1,4 +1,4 @@
-class User::SessionsNormalController < SessionsController
+class User::SessionsNormalController < User::SessionsController
 
 	#Se debe generar y retornar un token para la sesion
   	def create

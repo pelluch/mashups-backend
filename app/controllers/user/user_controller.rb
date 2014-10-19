@@ -1,6 +1,6 @@
 class User::UserController < ApplicationController
-  skip_before_action  :authenticate, only [:index, :show]
-  before_action       :set_user, except [:index, :create, :update]
+  skip_before_action  :authenticate, only: [:index, :show, :create]
+  before_action       :set_user, only: [:show]
 
   #Se retorna un .json con todos los usuarios
   def index

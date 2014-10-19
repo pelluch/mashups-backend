@@ -1,4 +1,4 @@
-class User::UserFacebookController < UserController
+class User::UserFacebookController < User::UserController
   
   #Generar un usuario de Facebook      
   def create

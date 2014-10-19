@@ -1,3 +1,3 @@
 class Keyword < ActiveRecord::Base
-	belongs_to: mashup
+	belongs_to 	:mashup
 end

@@ -1,13 +1,34 @@
-class User::UserNormalController < UserController
+class User::UserNormalController < User::UserController
   
   #Generar una cuenta normal
   def create
-  	
+	@user = User.new(user_params)
+
+  	respond_to do |format|
+      if @user.save
+        format.json { render json: @user, status: :created }
+      else
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   #Actualizar una cuenta normal
   def update
-  	
+
+  	respond_to do |format|
+      if @user.update(user_params)
+        format.json { render jason: @user }
+      else
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+	  	
   end
+
+  private
+  	def user_params
+      params.require(:user).permit(:name, :mail, :password)
+    end
   
 end

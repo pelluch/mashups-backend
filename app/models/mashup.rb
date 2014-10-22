@@ -4,5 +4,6 @@ class Mashup < ActiveRecord::Base
 	
 	belongs_to	:user
 
+	validates 	:name, :parameters, presence: true
 	serialize 	:parameters, Array
 end

@@ -66,7 +66,7 @@ class Mashup::MashupsController < ApplicationController
 
       # Never trust parameters from the scary internet, only allow the white list through.
     def mashup_params
-      params.require(:mashup).permit(:parameters)
+      params.require(:mashup).permit(:parameters, :name)
     end
   
 end

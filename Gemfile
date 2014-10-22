@@ -22,6 +22,9 @@ gem 'devise', '~> 3.3.0'
 #gema para scrappear internet
 gem 'nokogiri'
 
+# Rails REST API documentation tool
+gem 'apipie-rails', '~> 0.2.6'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1'

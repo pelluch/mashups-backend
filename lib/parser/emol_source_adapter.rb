@@ -1,5 +1,3 @@
-require HtmlSourceAdapter
-
 class EmolSourceAdapter < HtmlSourceAdapter
 @searchURI
 @params

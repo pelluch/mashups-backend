@@ -1,4 +1,3 @@
-require 'SourceAdapter'
 class HtmlSourceAdapter < SourceAdapter
 	@limit #limite de páginas que se van a buscar dentro de una fuente
 	

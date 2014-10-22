@@ -5,14 +5,13 @@ class SourceAdapter
 	# 		#esa fuente
 
 	def initialize(query_params)
-    	@query=query_params#String que contiene las palabras ingresadas por el usuario
+    	#String que contiene las palabras ingresadas por el usuario
+    	@query=query_params
+
   	end
 
 	def getJSON(limit)
 		raise NotImplementedError.new('getJSON debe ser implementado en una clase hija')
 	end
 
-	def httpGetRequest(URI) 
-		
-	end
 end

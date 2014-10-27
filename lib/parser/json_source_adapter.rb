@@ -12,11 +12,11 @@ class JSONSourceAdapter < SourceAdapter
 		if limit <0
 			raise "Limit debe ser mayor a 0"
 		end
-		result = getAPIJSON()
-		puts result
-		parsedData = JSON.parse(result)
-		ret = buildJSONAPI(parsedData, limit)
-		return ret[0,limit] #Con esto igual se devuelve el límite, conversar eficiencia sobre el while
+		result = getAPIJSON().body
+		# puts result
+		# puts parsedData
+		ret = buildJSONAPI(result, limit)
+		return ret
 	end
 
 	def getAPIJSON

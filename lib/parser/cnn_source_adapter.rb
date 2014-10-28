@@ -8,8 +8,7 @@ class CNNSourceAdapter < HtmlSourceAdapter
 	end
 
 	def buildJsonHtml(nokogiri_html)
-	ret = []
-	nokogiri_html.css(".
+		ret = []
 	end
 
 	def nextHtml(current_nokogiri_html)
@@ -17,7 +16,7 @@ class CNNSourceAdapter < HtmlSourceAdapter
 	end
 
 	def create_url(query_params=nil, offset=0)
-		query_params=query_params==nil ? self.query_params : query_params
+		query_params=query_params==nil ? @query : query_params
 
 		return URI::encode("http://edition.cnn.com/search/?query=#{query_params}&x=0&y=0&primaryType=mixed&sortBy=relevance&intl=true#&sortBy=date")
 	end

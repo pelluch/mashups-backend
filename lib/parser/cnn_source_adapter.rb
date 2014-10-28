@@ -10,6 +10,19 @@ class CNNSourceAdapter < HtmlSourceAdapter
 
 	def buildJsonHtml(nokogiri_html)
 		ret = []
+		nokogiri_html.css('.results li').map do |res|
+  			title=res.css('a').text.strip 	#.encode("UTF-8")
+  			content=res.css('.content p').text
+  			date = res.css('.meta').text
+  			#source
+  			url= res.css('a').attribute('href').to_s
+  			type = 'cnn'
+
+  			json={'title'=>  title, 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type}}.to_json
+  			ret.append(json)
+  		end
+
+  		return ret
 	end
 
 	def nextHtml(current_nokogiri_html)

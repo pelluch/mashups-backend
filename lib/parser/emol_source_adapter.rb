@@ -4,7 +4,7 @@ class EmolSourceAdapter < HtmlSourceAdapter
 
 	def initialize(query_params)
     	#String que contiene las palabras ingresadas por el usuario
-    	query=q
+    	query=query_params
     	super(query_params,create_url(query_params,0))
   	end
 
@@ -16,7 +16,7 @@ class EmolSourceAdapter < HtmlSourceAdapter
   			content=res.css(".teaser").text.strip 
   			date = /[0-9]{2}\/[0-9]{2}\/[0-9]{2}/.match(res.css(".fecha_noticia").text).to_s.to_datetime
   			#source
-  			url= first.css(".title a").attribute('href').to_s
+  			url= res.css(".title a").attribute('href').to_s
   			type = 'emol'
 
   			json={'title'=>  title, 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type}}.to_json
@@ -37,7 +37,7 @@ class EmolSourceAdapter < HtmlSourceAdapter
 	end
 
 	def create_url(query_params=nil,offset=0)
-		query_params=query_params==nil ? self.query_params : query_params
+		query_params=query_params==nil ? @query_params : query_params
 
 		return URI::encode("http://buscador.emol.com/dispatcher.php?query=#{query_params}&query2=&offset=#{offset}&portal=todos&sort=rank&sortdir=descending&por=EMOL&o2=13&o3=25&o4=35&cn=emol&Submit=Buscar")
 	end

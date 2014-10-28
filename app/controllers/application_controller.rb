@@ -9,11 +9,13 @@ class ApplicationController < ActionController::Base
   	authenticate_or_request_with_http_token do |token, options|
       if params[:id] != nil
         user = User.find(params[:id])
+        puts user.name
       elsif params[:login].to_s.include? "@"
         user = User.find_by_mail(params[:login])
       else
         user = User.find_by_name(params[:login])
       end
+      puts user.name
       if user == nil
         false
     	elsif user.validate(token)

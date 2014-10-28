@@ -30,8 +30,8 @@ class User::UsersController < ApplicationController
 
   #Borra un usuario
   def destroy    
-    @user.destroy
-    respond_to do |format|        
+  	@user.destroy
+      respond_to do |format|        
         format.json { head :no_content }
       end
   end

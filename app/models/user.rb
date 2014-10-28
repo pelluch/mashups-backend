@@ -17,10 +17,6 @@ class User < ActiveRecord::Base
 		self.token = SecureRandom.hex
 	end
 
-	def destroy
-		self.token = ''
-	end
-
 	def validate(token)
 		if token != self.token || self.token == ''
 			return false

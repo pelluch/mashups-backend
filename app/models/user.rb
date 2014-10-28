@@ -12,9 +12,19 @@ class User < ActiveRecord::Base
 	validates 	:name, format: { with: /\A[-a-z]+\Z/ }
 	
 	has_many	:mashups
-
+	
 	def generate
 		self.token = SecureRandom.hex
+		a = Mashup.create! name: 'temporal'
+		self.mashup_id = a.id
+	end
+
+	def temporal=(mash)
+		self.mashup_id = mash.id
+	end
+
+	def temporal
+		Mashup.find(self.mashup_id)
 	end
 
 	def validate(token)

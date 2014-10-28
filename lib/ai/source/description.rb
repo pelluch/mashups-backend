@@ -3,7 +3,7 @@ module AI
 
 		SOURCE_TYPES = [ :emol, :twitter, :gobierno_de_chile, :cnn, :other ]		
 		class Description
-			attr_accessor :url, :type
+			attr_accessor :url, :type, :extras
 		end
 	end
 end

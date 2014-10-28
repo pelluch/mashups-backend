@@ -1,5 +1,5 @@
 module AI
-	module SourceAnalysers
+	module SourceAnalysersAlgorithms
 		class Base
 
             # Base method for analysing a source such as twitter or EMOL

@@ -5,7 +5,8 @@ module AI
 		end
 
 		def get_source_elements_by_relevance(source_elements, query)
-
+			analyser = AI::SourceRelevanceAnalyser.new
+			analyser.analyse_batch source_elements, query
 		end
 
 		# Json de ejemplo

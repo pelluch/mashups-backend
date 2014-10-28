@@ -1,6 +1,6 @@
 module AI
-	module SourceAnalysers
-		class Emol < AI::SourceAnalysers::Base
+	module SourceAnalysersAlgorithms
+		class Emol < AI::SourceAnalysersAlgorithms::Base
 
 			def analyse_source(source_element, query)
 				Rails.logger.info("Unimplemented")

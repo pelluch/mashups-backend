@@ -20,7 +20,8 @@ def buildJSONAPI(result, limit)
 	dates = []
 
 	parsedData = JSON.parse(result)
-	@next = "https://api.twitter.com/1.1/search/tweets.json?q=#{parsedData["search_metadata"]["next_results"]}"
+	@next = parsedData["search_metadata"]["next_results"]
+	@next = @next[1, @next.length]
 	parsedData = parsedData["statuses"]
 	parsedData.each do |article|
 		contents << article["text"]
@@ -36,8 +37,10 @@ def buildJSONAPI(result, limit)
 		i += 1
 	end
 
-	if limit > 15 && i != context.length
-		ret2 = buildJSONAPI(getAPIJSON().body, limit - 15)
+	if limit > 15 and i >= 15
+		response = getAPIJSON().body
+		ret2 = buildJSONAPI(response, limit - 15)
+		puts ret2
 		ret2.each do |p|
 			ret << p
 		end
@@ -53,7 +56,7 @@ def updateUri()
 	if @next.nil?
 		@searchURI = "https://api.twitter.com/1.1/search/tweets.json?q=#{@params}"
 	else
-		@searchURI = @next
+		@searchURI = "https://api.twitter.com/1.1/search/tweets.json?#{@next}"
 	end
 	@searchURI = URI.parse(@searchURI)
 end
@@ -66,7 +69,15 @@ def getOAUTH()
 	oauth_token = "2393279576-J0rVwOHFP1oFbkpNq2kVQGFYHvgxGFhzC2kiDji"
 	oauth_version = "1.0"
 
-	oauth_signature_value = "oauth_consumer_key=" + oauth_consumer_key
+	oauth_signature_value = ""
+	if not @next.nil?
+		spt = @next.split("&")
+		oauth_signature_value += spt[2]
+		oauth_signature_value += "&"
+		oauth_signature_value += spt[0]
+		oauth_signature_value += "&"
+	end
+	oauth_signature_value += "oauth_consumer_key=" + oauth_consumer_key
 	oauth_signature_value += "&oauth_nonce=" + oauth_nonce
 	oauth_signature_value += "&oauth_signature_method=" + oauth_signature_method
 	oauth_signature_value += "&oauth_timestamp=" + oauth_timestamp

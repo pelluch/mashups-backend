@@ -15,8 +15,7 @@ module AI
 			def map_reduce content
 				mapped = Hash.new
 				puts content
-				content.gsub!(/\.|,/, ' ').squeeze!(' ')
-				content.split(' ').each do |word|
+				content.gsub(/\.|,/, ' ').squeeze(' ').split(' ').each do |word|
 					if mapped.has_key?(word)
 						mapped[word] += 1
 					else

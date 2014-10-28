@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+	before_save      :generate
 	has_secure_password
 
 	validates_uniqueness_of :name, :mail
@@ -6,7 +7,7 @@ class User < ActiveRecord::Base
 	validates 	:name, length: { minimum: 4, maximum: 20 }
 	validates 	:password, length: { minimum: 8, maximum: 20 }
 	validates 	:mail, format: { with: /\A[\w__.+-]+@[\w]+\.[\w]{2,4}+\Z/}
-	validates 	:name, format: { with: /^[-a-z]+$/ }
+	validates 	:name, format: { with: /\A[-a-z]+\Z/ }
 	
 	has_many	:mashups
 
@@ -19,6 +20,7 @@ class User < ActiveRecord::Base
 	end
 
 	def validate(token)
+		puts "#{token} sd #{self.token} "
 		if token != self.token || self.token == ''
 			return false
 		else

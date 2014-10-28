@@ -4,11 +4,11 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups
   # GET /mashups.json
   def index
+    puts "dsaodksad"
     @mashups = @user.mashups
 
     respond_to do |format|
-      format.json { render json: @mashup.as_json(include: :keywords) }
-      #format.json { render json: @mashups.as_json(include: {:links{ include: {:link_sources}}}) }
+      format.json { render json: @mashups.as_json(include: :keywords) }
     end
   end
 

@@ -14,7 +14,7 @@ class User::UsersController < ApplicationController
   #Dado un usuario se debe retornar un .json con los datos del usuario y sus mashups  
   def show        
     respond_to do |format|      
-      format.json { render json: @user }
+      format.json { render json: @user.as_json(include: {mashups: {}})}
     end
   end
 

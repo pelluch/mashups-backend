@@ -2,6 +2,7 @@ class Mashup::MashupsController < ApplicationController
   # before_action :set_mashup, only: [:destroy]
   skip_before_action  :authenticate, only: [:index, :show]
   before_action       :get_user, only: [:index, :show]
+  respond_to :json
 
   # GET /mashups
   # GET /mashups.json

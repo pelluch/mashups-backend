@@ -3,9 +3,11 @@ class User < ActiveRecord::Base
 	before_create	:generate
 
 	validates_uniqueness_of :name, :mail
-	validates 	:name, :password, :mail, presence: true
+	validates 	:name, presence: true, :if => :name
+	validates 	:password, presence: true, :if => :password 
+	validates   :mail, presence: true, :if => :mail
 	validates 	:name, length: { minimum: 4, maximum: 20 }
-	validates 	:password, length: { minimum: 8, maximum: 20 }
+	validates 	:password, length: { minimum: 8, maximum: 20 }, :if => :password 	
 	validates 	:mail, format: { with: /\A[\w__.+-]+@[\w]+\.[\w]{2,4}+\Z/}
 	validates 	:name, format: { with: /\A[-a-z]+\Z/ }
 	

@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   
   namespace :user do
-    get '/auth/:provider/callback' => 'sessions_facebook#create', :as => :signin
-    get '/signout' => 'sessions_facebook#destroy', :as => :signout
+    #get '/auth/:provider/callback' => 'sessions_facebook#create', :as => :signin
+    #get '/signout' => 'sessions_facebook#destroy', :as => :signout
     # get '/signin' => 'sessions_facebook#new', :as => :signin
 
-    get '/home' => 'sessions_facebook#home'
+    #get '/home' => 'sessions_facebook#home'
+    resources :users, except: [:edit, :new, :create, :update]
+    resources :user_normal, only: [:create, :update]
   end
 
   get '/auth/:provider/callback' => 'sessions_facebook#create'

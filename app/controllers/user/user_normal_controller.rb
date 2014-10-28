@@ -1,4 +1,4 @@
-class User::UserNormalController < User::UserController
+class User::UserNormalController < User::UsersController
   
   #Generar una cuenta normal
   def create
@@ -15,10 +15,9 @@ class User::UserNormalController < User::UserController
 
   #Actualizar una cuenta normal
   def update
-
   	respond_to do |format|
       if @user.update(user_params)
-        format.json { render jason: @user }
+        format.json { render json: @user }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

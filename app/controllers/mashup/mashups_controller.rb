@@ -1,14 +1,12 @@
 class Mashup::MashupsController < ApplicationController
-  # before_action :set_mashup, only: [:destroy]
-
+  skip_before_action  :authenticate, only: [:index, :show]
+  before_action       :get_user, only: [:index]
   # GET /mashups
   # GET /mashups.json
   def index
     @mashups = @user.mashups
-
     respond_to do |format|
-      format.json { render json: @mashup.as_json(include: :keywords) }
-      #format.json { render json: @mashups.as_json(include: {:links{ include: {:link_sources}}}) }
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}}}) }
     end
   end
 
@@ -16,9 +14,8 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups/1.json
   def show
     @mashup = Mashup.find(params[:id])    
-    #@mashup.as_json(include: :keywords)
     respond_to do |format|
-      format.json { render json: @mashup.as_json(include: :keywords) }
+      format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}}}) }
     end
   end
 
@@ -26,7 +23,6 @@ class Mashup::MashupsController < ApplicationController
   # POST /mashups.json
   def create
     @mashup = @user.temporal.clone
-
     respond_to do |format|
       if @mashup.save
         format.json { render json: @mashup, status: :created }
@@ -39,7 +35,7 @@ class Mashup::MashupsController < ApplicationController
   # PATCH/PUT /mashups/1
   # PATCH/PUT /mashups/1.json
   def update
-
+    @user.temporal.parser
     respond_to do |format|
       if @user.temporal.update(mashup_params)
         format.json { render jason: @user.temporal }
@@ -53,7 +49,6 @@ class Mashup::MashupsController < ApplicationController
   # DELETE /mashups/1.json
   def destroy
     @user.mashup.find(params[:id])
-    
     respond_to do |format|
       format.json { head :no_content }
     end

@@ -6,4 +6,8 @@ class Mashup < ActiveRecord::Base
 
 	validates 	:name, :parameters, presence: true
 	serialize 	:parameters, Array
+
+	def parser
+		
+	end
 end

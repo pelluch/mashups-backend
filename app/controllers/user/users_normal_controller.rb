@@ -15,10 +15,10 @@ class User::UsersNormalController < User::UsersController
 
   #Actualizar una cuenta normal
   def update
-
+    params[:user].delete(:password) if params[:user][:password].blank?
   	respond_to do |format|
       if @user.update(user_params)
-        format.json { render jason: @user }
+        format.json { render json: @user }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

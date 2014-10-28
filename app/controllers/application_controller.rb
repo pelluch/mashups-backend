@@ -7,14 +7,27 @@ class ApplicationController < ActionController::Base
   #Este metodo autentificara a un usuario con el token correcto
   def authenticate
   	authenticate_or_request_with_http_token do |token, options|
-      if params[:user][:login].to_s.include? "@"
-        user = User.find_by_mail(params[:user][:login])
+      if params[:id] != nil
+        user = User.find(params[:id])
+      elsif params[:login].to_s.include? "@"
+        user = User.find_by_mail(params[:login])
       else
-        user = User.find_by_name(params[:user][:login])
+        user = User.find_by_name(params[:login])
       end
-    	if user.validate(token)
+      if user == nil
+        false
+    	elsif user.validate(token)
     		@user = user
     	end
     end  	
   end
+
+  def get_user
+    if params[:login].to_s.include? "@"
+        @user = User.find_by_mail(params[:login])
+    else
+        @user = User.find_by_name(params[:login])
+    end     
+  end
+
 end

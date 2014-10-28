@@ -3,10 +3,10 @@ class TwitterSourceAdapter < JSONSourceAdapter
 @params
 @next
 def getAPIJSON()
-	updateUri()
+	@params = "perro"
 	request = Net::HTTP::Get.new @searchURI
 	request.add_field("Authorization", getOAUTH())
-
+	puts @params
 	http = Net::HTTP.new(@searchURI.host, @searchURI.port)
 	http.use_ssl = true
 	http.set_debug_output $stderr
@@ -15,42 +15,14 @@ def getAPIJSON()
 end
 
 def buildJSONAPI(result, limit)
-	contents = []
-	user = []
-	url = []
-	dates = []
-
-	parsedData = JSON.parse(result)
-	@next = "https://api.twitter.com/1.1/search/tweets.json?q=#{parsedData["search_metadata"]["next_results"]}"
-	parsedData = parsedData["statuses"]
-	parsedData.each do |article|
-		contents << article["text"]
-		user << article["user"]
-		url << "https://twitter.com/N3R4S2/status/#{article["id"]}"
-		dates << article["created_at"]
-	end
-	i = 0
-	type = "twitter"
-	while (i < limit && i < contents.length && i < 15)
-		json = {'author' => user[i]["name"], 'date' => dates[i], 'title'=>  contents[i], 'content' => contents[i],'source'=> {'url'=> url[i], 'type' => type, 'extras' => user[i]["id"]}}.to_json
-		ret << json
-		i += 1
-	end
-
-	if limit > 15 && i != context.length:
-		ret2 = buildJSONAPI(getAPIJSON().body, limit - 15)
-		ret2.each do |p|
-			ret << p
-	ret
+	ret = []
+	
+	return ret
 end
 
 private
 def updateUri()
-	if @next.nil?
-		@searchURI = "https://api.twitter.com/1.1/search/tweets.json?q=#{@params}"
-	else
-		@searchURI = @next
-
+	@searchURI = "https://api.twitter.com/1.1/search/tweets.json?q=#{@params}"
 	@searchURI = URI.parse(@searchURI)
 end
 

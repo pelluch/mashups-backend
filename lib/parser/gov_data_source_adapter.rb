@@ -16,19 +16,19 @@ class GovDataSourceAdapter < JSONSourceAdapter
 		titles = []
 		urls = []
 		dates = []
-		tags = []
+		# tags = []
 		parsedData = JSON.parse(result)
 		parsedData.each do |article|
 			contents << article["description"]
 			titles << article["title"]
 			urls << article["link"]
 			dates << article["created_at"]
-			tags << article["tags"]
+			# tags << article["tags"]
 		end
 		i = 0
 		type = "gobierno_de_chile"
 		while (i < limit && i < contents.length)
-			json = {'author' => nil, 'date' => dates[i], 'title'=>  titles[i], 'content' => contents[i],'source'=> {'url'=> urls[i], 'type' => type, 'extras' => tags[i]}}.to_json
+			json = {'author' => nil, 'date' => dates[i], 'content' => contents[i],'source'=> {'url'=> urls[i], 'type' => type, 'extras' => titles[i]}}.to_json
 			ret << json
 			i += 1
 		end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback' => 'sessions_facebook#create'
 
   namespace :mashup do
+    get '/mashups/all' => 'mashups#index_total'
     resources :mashups, except: [:edit, :new]
   end
 

@@ -1,8 +1,17 @@
 class Mashup::MashupsController < ApplicationController
   # before_action :set_mashup, only: [:destroy]
-  skip_before_action  :authenticate, only: [:index, :show]
+  skip_before_action  :authenticate, only: [:index_total, :index, :show]
   before_action       :get_user, only: [:index, :show]
   respond_to :json
+
+  # GET /mashups
+  # GET /mashups.json
+  def index_total
+    @mashups = Mashup.all
+    respond_to do |format|
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
+    end
+  end
 
   # GET /mashups
   # GET /mashups.json

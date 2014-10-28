@@ -26,7 +26,7 @@ gem 'nokogiri'
 
 # Rails REST API documentation tool
 gem 'apipie-rails', '~> 0.2.6'
-gem 'httparty'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1'

@@ -1,15 +1,19 @@
 Rails.application.routes.draw do
   
   namespace :user do
-    get '/auth/:provider/callback' => 'sessions_facebook#create'
+    get '/auth/:provider/callback' => 'sessions_facebook#create', :as => :signin
     get '/signout' => 'sessions_facebook#destroy', :as => :signout
-    get '/signin' => 'sessions_facebook#new', :as => :signin
+    # get '/signin' => 'sessions_facebook#new', :as => :signin
 
     get '/home' => 'sessions_facebook#home'
   end
 
-  resources :mashups
- 
+  get '/auth/:provider/callback' => 'sessions_facebook#create'
+
+  namespace :mashup do
+    resources :mashups, except: [:edit, :new]
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

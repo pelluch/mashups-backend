@@ -1,4 +1,4 @@
-class User::UserController < ApplicationController
+class User::UsersController < ApplicationController
   skip_before_action  :authenticate, only: [:index, :show, :create]
   before_action       :set_user, only: [:show]
 

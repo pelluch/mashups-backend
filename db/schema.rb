@@ -11,19 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014182905) do
+ActiveRecord::Schema.define(version: 20141022131539) do
 
   create_table "keywords", force: true do |t|
     t.string   "keyword"
     t.integer  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mashup_id"
   end
 
   create_table "link_sources", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "photo"
   end
 
   create_table "links", force: true do |t|
@@ -32,12 +34,17 @@ ActiveRecord::Schema.define(version: 20141014182905) do
     t.integer  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mashup_id"
+    t.integer  "link_source_id"
+    t.text     "content"
   end
 
   create_table "mashups", force: true do |t|
     t.string   "parameters"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "name"
   end
 
   create_table "users", force: true do |t|

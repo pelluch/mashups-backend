@@ -4,7 +4,8 @@ class CNNSourceAdapter < HtmlSourceAdapter
 
 	def initialize(query_params)
 		query=query_params
-		super(query_params, create_url(query_params, 0))
+		@offset=0
+		super(query_params, create_url(query_params, @offset))
 	end
 
 	def buildJsonHtml(nokogiri_html)
@@ -12,13 +13,14 @@ class CNNSourceAdapter < HtmlSourceAdapter
 	end
 
 	def nextHtml(current_nokogiri_html)
-
+		@offset=@offset+1
+		@url=create_url(@query_params,@offset)
+		return getHtml()
 	end
 
 	def create_url(query_params=nil, offset=0)
 		query_params=query_params==nil ? @query : query_params
-
-		return URI::encode("http://edition.cnn.com/search/?query=#{query_params}&x=0&y=0&primaryType=mixed&sortBy=relevance&intl=true#&sortBy=date")
+		return URI::encode("http://www.cnnchile.com/buscar/key/#{query_params}/p/#{offset}")
 	end
 
 end

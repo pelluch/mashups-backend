@@ -37,7 +37,7 @@ class EmolSourceAdapter < HtmlSourceAdapter
 	end
 
 	def create_url(query_params=nil,offset=0)
-		query_params=query_params==nil ? self.query_params : query_params
+		query_params=query_params==nil ? @query_params : query_params
 
 		return URI::encode("http://buscador.emol.com/dispatcher.php?query=#{query_params}&query2=&offset=#{offset}&portal=todos&sort=rank&sortdir=descending&por=EMOL&o2=13&o3=25&o4=35&cn=emol&Submit=Buscar")
 	end

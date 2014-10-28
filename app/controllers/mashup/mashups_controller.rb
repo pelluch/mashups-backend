@@ -1,5 +1,7 @@
 class Mashup::MashupsController < ApplicationController
   # before_action :set_mashup, only: [:destroy]
+  skip_before_action  :authenticate, only: [:index, :show]
+  before_action       :get_user, only: [:index, :show]
 
   # GET /mashups
   # GET /mashups.json
@@ -7,7 +9,7 @@ class Mashup::MashupsController < ApplicationController
     @mashups = @user.mashups
 
     respond_to do |format|
-      format.json { render json: @mashups }
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
   end
 
@@ -15,9 +17,9 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups/1.json
   def show
     @mashup = Mashup.find(params[:id])    
-    #@mashup.as_json(include: :keywords)
     respond_to do |format|
-      format.json { render json: @mashup }
+      format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
+      #format.json { render json: @mashup }
     end
   end
 
@@ -25,7 +27,7 @@ class Mashup::MashupsController < ApplicationController
   # POST /mashups.json
   def create
     @mashup = @user.temporal.clone
-
+    @mashup.name = params[:name]
     respond_to do |format|
       if @mashup.save
         format.json { render json: @mashup, status: :created }

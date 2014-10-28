@@ -1,12 +1,13 @@
 class User < ActiveRecord::Base
 	has_secure_password
+	before_create	:generate
 
 	validates_uniqueness_of :name, :mail
 	validates 	:name, :password, :mail, presence: true
 	validates 	:name, length: { minimum: 4, maximum: 20 }
 	validates 	:password, length: { minimum: 8, maximum: 20 }
 	validates 	:mail, format: { with: /\A[\w__.+-]+@[\w]+\.[\w]{2,4}+\Z/}
-	validates 	:name, format: { with: /^[-a-z]+$/ }
+	validates 	:name, format: { with: /\A[-a-z]+\Z/ }
 	
 	has_many	:mashups
 

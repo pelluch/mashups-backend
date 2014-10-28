@@ -8,7 +8,7 @@ class HtmlSourceAdapter < SourceAdapter
     	@offset=0
   	end
 
-	def getJSON(limit=20)
+	def getJSON(limit)
 		ret=[]
 		if limit<0
 			raise 'limit no puede ser menor a cero'

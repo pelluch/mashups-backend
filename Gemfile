@@ -19,6 +19,9 @@ gem 'active_model_serializers', '~> 0.9.0'
 # Flexible authentication solution for Rails with Warden
 gem 'devise', '~> 3.3.0'
 
+#gema para scrappear internet
+gem 'nokogiri'
+
 # Rails REST API documentation tool
 gem 'apipie-rails', '~> 0.2.6'
 

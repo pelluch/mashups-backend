@@ -48,7 +48,7 @@ class Mashup::MashupsController < ApplicationController
     @user.mashups << @mashup
     respond_to do |format|
       if @mashup.save
-        format.json { render json: @mashup, status: :created }
+        format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
       else
         format.json { render json: @mashup.errors, status: :unprocessable_entity }
       end
@@ -73,15 +73,18 @@ class Mashup::MashupsController < ApplicationController
     @user.temporal = m
 
     respond_to do |format|
-      format.json { render json: @user.temporal }      
+      format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
     end
   end
 
   # DELETE /mashups/1
   # DELETE /mashups/1.json
   def destroy
-    @user.mashup.find(params[:id])
-    
+    mashup = @user.mashups.find(params[:mashup_id])
+    mashup.links.delete_all
+    mashup.keywords.delete_all
+    mashup.destroy
+
     respond_to do |format|
       format.json { head :no_content }
     end

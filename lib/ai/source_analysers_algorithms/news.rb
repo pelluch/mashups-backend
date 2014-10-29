@@ -22,10 +22,8 @@ module AI
 				end
 				query.gsub(/\.|,/, ' ').squeeze(' ').split(' ').each do |word|
 			 		score += (title.include?(word) ? SCORE_FOR_TITLE_MATCH : 0)
-					puts 'score ' + score.to_s
 				end
 				score = length_factor(score, content.length)
-				puts 'score after ' + score.to_s
 				return score
 			end
 		end

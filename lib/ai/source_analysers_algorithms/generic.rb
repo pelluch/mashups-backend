@@ -33,7 +33,6 @@ module AI
 						score += mapped[word]
 					end
 				end
-				score = length_factor(score, content.length)
 				return score
 			end
 

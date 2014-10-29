@@ -1,9 +1,10 @@
 module AI
 	module SourceAnalysersAlgorithms
 		class Generic < AI::SourceAnalysersAlgorithms::Base
-
+			SCORE_PER_MATCH = 1
+			SCORE_LOSS_BY_LENGTH = 10
+			SCORE_BY_LENGTH_FACTOR = 1/1000
 			def analyse_source(source_element, query)
-				
 				score = assign_score(source_element.content, map_reduce(source_element.content), query)
 				result = AI::Source::ElementRelevance.new
 				result.relevance = score
@@ -12,14 +13,14 @@ module AI
 				return result
 			end
 
-			private
+			protected
 			def map_reduce content
 				mapped = Hash.new
 				content.gsub(/\.|,/, ' ').squeeze(' ').split(' ').each do |word|
 					if mapped.has_key?(word)
-						mapped[word] += 1
+						mapped[word] += SCORE_PER_MATCH
 					else
-						mapped[word] = 1
+						mapped[word] = SCORE_PER_MATCH
 					end
 				end
 				return mapped
@@ -32,8 +33,12 @@ module AI
 						score += mapped[word]
 					end
 				end
-				score = (score * 10000 / content.length).to_i
+				score = length_factor(score, content.length)
 				return score
+			end
+
+			def length_factor score, length
+				 score - SCORE_LOSS_BY_LENGTH * length * SCORE_BY_LENGTH_FACTOR
 			end
 		end
 	end

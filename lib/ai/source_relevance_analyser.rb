@@ -16,7 +16,7 @@ module AI
 			source_elements.each do |se|
 				result << analyse(se, query)
 			end
-			result.sort_by{|e| -e.relevance}
+			result.sort_by!{|e| -e.relevance}
 			result
 		end
 

@@ -1,6 +1,9 @@
 class GovDataSourceAdapter < JSONSourceAdapter
 @searchURI
 @params
+	def initialize query_params
+		super(query_params, "")
+	end
 	def getAPIJSON() #FALTA IMPLEMENTAR REQUEST, ESTA FALLA
 		url = "http://api.recursos.datos.gob.cl/datastreams/search?query=" + @query + "&auth_key=05579a63c4aea8106f4e2f19726255c45ddf689a"
 		uri = URI.parse(url)

@@ -30,18 +30,18 @@ module AI
 			result = Array.new
 			json.each do |source|
 				currElem = AI::Source::Element.new
-				currElem.author = source[:author]
-				currElem.date 	= source[:date]
-				currElem.content= source[:content]
+				currElem.author = source['author']
+				currElem.date 	= source['date']
+				currElem.content= source['content']
 				currElem.description = AI::Source::Description.new
-				currElem.description.url = source[:source][:url]
-				currElem.description.type = :other
+				currElem.description.url = source['source']['url']
+				currElem.description.type = 'other'
 				AI::Source::SOURCE_TYPES.each do |st|
-				 	if st.to_s == source[:source][:type]
+				 	if st.to_s == source['source']['type']
 				 		currElem.description.type = st
 				 	end
 				end
-				currElem.description.extras = source[:source][:extras]
+				currElem.description.extras = source['source']['extras']
 				result << currElem
 			end
 			return result

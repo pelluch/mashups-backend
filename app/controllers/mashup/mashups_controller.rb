@@ -1,46 +1,47 @@
-class MashupsController < ApplicationController
-  before_action :set_mashup, only: [:show, :edit, :update, :destroy]
+class Mashup::MashupsController < ApplicationController
+  # before_action :set_mashup, only: [:destroy]
+  skip_before_action  :authenticate, only: [:index_total, :index, :show]
+  before_action       :get_user, only: [:index, :show]
+  respond_to :json
+
+  # GET /mashups
+  # GET /mashups.json
+  def index_total
+    @mashups = Mashup.all
+    respond_to do |format|
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
+    end
+  end
 
   # GET /mashups
   # GET /mashups.json
   def index
-    @mashups = Mashup.all
+    @mashups = @user.mashups
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @mashups }
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
   end
 
   # GET /mashups/1
   # GET /mashups/1.json
   def show
+    @mashup = Mashup.find(params[:id])    
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @mashup }
+      format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
+      #format.json { render json: @mashup }
     end
-  end
-
-  # GET /mashups/new
-  def new
-    @mashup = Mashup.new
-  end
-
-  # GET /mashups/1/edit
-  def edit
   end
 
   # POST /mashups
   # POST /mashups.json
   def create
-    @mashup = Mashup.new(mashup_params)
-
+    @mashup = @user.temporal.clone
+    @mashup.name = params[:name]
     respond_to do |format|
       if @mashup.save
-        format.html { redirect_to @mashup, notice: 'Mashup was successfully created.' }
         format.json { render json: @mashup, status: :created }
       else
-        format.html { render action: 'new' }
         format.json { render json: @mashup.errors, status: :unprocessable_entity }
       end
     end
@@ -49,13 +50,12 @@ class MashupsController < ApplicationController
   # PATCH/PUT /mashups/1
   # PATCH/PUT /mashups/1.json
   def update
+
     respond_to do |format|
-      if @mashup.update(mashup_params)
-        format.html { redirect_to @mashup, notice: 'Mashup was successfully updated.' }
-        format.json { head :no_content }
+      if @user.temporal.update(mashup_params)
+        format.json { render jason: @user.temporal }
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @mashup.errors, status: :unprocessable_entity }
+        format.json { render json: @user.temporal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -63,21 +63,22 @@ class MashupsController < ApplicationController
   # DELETE /mashups/1
   # DELETE /mashups/1.json
   def destroy
-    @mashup.destroy
+    @user.mashup.find(params[:id])
+    
     respond_to do |format|
-      format.html { redirect_to mashups_url }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_mashup
-      @mashup = Mashup.find(params[:id])
-    end
+      # Use callbacks to share common setup or constraints between actions.
+      # def set_mashup
+      #   @mashup = Mashup.find(params[:id])
+      # end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+      # Never trust parameters from the scary internet, only allow the white list through.
     def mashup_params
-      params.require(:mashup).permit(:parameters)
+      params.require(:mashup).permit(:parameters, :name)
     end
+  
 end

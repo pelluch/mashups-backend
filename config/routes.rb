@@ -1,7 +1,22 @@
 Rails.application.routes.draw do
-  resources :mashups
+  
+  namespace :user do
+    #get '/auth/:provider/callback' => 'sessions_facebook#create', :as => :signin
+    #get '/signout' => 'sessions_facebook#destroy', :as => :signout
+    # get '/signin' => 'sessions_facebook#new', :as => :signin
 
-  devise_for :users
+    #get '/home' => 'sessions_facebook#home'
+    resources :users, except: [:edit, :new, :create, :update]
+    resources :user_normal, only: [:create, :update]
+  end
+
+  get '/auth/:provider/callback' => 'sessions_facebook#create'
+
+  namespace :mashup do
+    get '/mashups/all' => 'mashups#index_total'
+    resources :mashups, except: [:edit, :new]
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

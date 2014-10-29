@@ -17,14 +17,16 @@ gem 'rack-timeout', '~> 0.0.4'
 gem 'active_model_serializers', '~> 0.9.0'
 
 # Flexible authentication solution for Rails with Warden
-gem 'devise', '~> 3.3.0'
+# gem 'devise', '~> 3.3.0'
+gem 'bcrypt', '~> 3.1.7'
+gem 'omniauth-facebook'
 
 #gema para scrappear internet
 gem 'nokogiri'
 
 # Rails REST API documentation tool
 gem 'apipie-rails', '~> 0.2.6'
-
+gem 'httparty'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.1'

@@ -18,12 +18,13 @@ class Mashup < ActiveRecord::Base
 
 		params2 = params2[0..-2]
 
-		self.update(parameters: params)
-
+		puts "sdais dsjadn sajdnasjkdnsajk dnsajkd sjakdn sajd nsajd sajdn sajkd da #{params2}"
 		a = ParserAIFacade::QueryManager.new
-		objeto = a.parse_and_filter params2, ['cnn', 'emol', 'gobierno_de_chile', 'twitter'], 5
+		objeto = a.parse_and_filter params2, ['emol', 'cnn', 'gobierno_de_chile'], 2
 
-		puts objeto[:words_by_relevance]
+		puts objeto
+
+		#puts objeto[:words_by_relevance]
 		puts objeto[:source_elements_by_relevance]
 	end
 

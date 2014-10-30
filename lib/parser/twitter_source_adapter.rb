@@ -2,9 +2,9 @@ class TwitterSourceAdapter < JSONSourceAdapter
 @searchURI
 @params
 
-	#def initialize query_params
-	#	super(query_params, "")
-	#end
+	def initialize query_params
+		super(query_params, "")
+	end
 
 @next
 def getAPIJSON()

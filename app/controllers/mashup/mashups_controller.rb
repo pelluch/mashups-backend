@@ -76,8 +76,10 @@ class Mashup::MashupsController < ApplicationController
       parametros << p
     end
 
-    @user.temporal.generate(parametros)
+    m.generate(parametros)
     
+    m.update(parameters: parametros)
+    m.save
 
 
     Link.create(value: 3, link: "#", title: "una noticia", mashup_id: m.id, link_source_id: 1)

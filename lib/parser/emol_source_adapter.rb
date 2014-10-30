@@ -19,7 +19,7 @@ class EmolSourceAdapter < HtmlSourceAdapter
   			url= res.css(".title a").attribute('href').to_s
   			type = 'emol'
 
-  			json={'title'=>  title, 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type}}.to_json
+  			json={'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type, 'extras' =>  title}}.to_json
   			ret.append(json)
   		end
 

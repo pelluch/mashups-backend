@@ -18,7 +18,7 @@ class CNNSourceAdapter < HtmlSourceAdapter
   			url= res.css('a').attribute('href').to_s
   			type = 'cnn'
 
-  			json={'title'=>  title, 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type}}.to_json
+  			json={ 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type, 'extras' => title}}.to_json
   			ret.append(json)
   		end
 

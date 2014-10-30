@@ -3,14 +3,13 @@ class GovDataSourceAdapter < JSONSourceAdapter
 @params
 	def initialize query_params
 		super(query_params, "")
-		puts @query
 		if(@query.include?(" "))
 			@queryArray = @query.split
 			@query = ""
 			@queryArray.each do |word|
 				@query = @query + word + "%20"
 			end
-			puts @query[0..-4] 
+			@query = @query[0..-4] 
 		end
 	end
 	def getAPIJSON()

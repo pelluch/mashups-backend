@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141028190558) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "keywords", force: true do |t|
     t.string   "keyword"
     t.integer  "value"

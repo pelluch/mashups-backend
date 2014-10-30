@@ -15,7 +15,7 @@ class CNNSourceAdapter < HtmlSourceAdapter
   			content=res.css('.content p').text
   			date = res.css('.meta').text
   			#source
-  			url= res.css('a').attribute('href').to_s
+  			url= "http://www.cnnchile.com/" + res.css('a').attribute('href').to_s
   			type = 'cnn'
 
   			json={ 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type, 'extras' => title}}.to_json

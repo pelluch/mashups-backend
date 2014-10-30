@@ -82,13 +82,7 @@ class Mashup::MashupsController < ApplicationController
     m.save
 
 
-    Link.create(value: 3, link: "#", title: "una noticia", mashup_id: m.id, link_source_id: 1)
-    Link.create(value: 3, link: "#", title: "otra noticia", mashup_id: m.id, link_source_id: 4)
-    #Link.create(value: 3, link: "#", title: "alguna noticia", mashup_id: m.id, link_source_id: 2)
-    #Link.create(value: 3, link: "#", title: "un post", mashup_id: m.id, link_source_id: 2)
-    #Link.create(value: 3, link: "#", title: "otra cosa", mashup_id: m.id, link_source_id: 3)
-    m.save
-    #@user.temporal = m
+    
 
     respond_to do |format|
       format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     

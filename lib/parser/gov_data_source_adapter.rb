@@ -3,8 +3,16 @@ class GovDataSourceAdapter < JSONSourceAdapter
 @params
 	def initialize query_params
 		super(query_params, "")
+		if(@query.include?(" "))
+			@queryArray = @query.split
+			@query = ""
+			@queryArray.each do |word|
+				@query = @query + word + "%20"
+			end
+			@query = @query[0..-4] 
+		end
 	end
-	def getAPIJSON() #FALTA IMPLEMENTAR REQUEST, ESTA FALLA
+	def getAPIJSON()
 		url = "http://api.recursos.datos.gob.cl/datastreams/search?query=" + @query + "&auth_key=05579a63c4aea8106f4e2f19726255c45ddf689a"
 		uri = URI.parse(url)
 		# Net::HTTP.get_print(uri)

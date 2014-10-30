@@ -4,6 +4,14 @@ class TwitterSourceAdapter < JSONSourceAdapter
 
 	def initialize query_params
 		super(query_params, "")
+		if(@query.include?(" "))
+			@queryArray = @query.split
+			@query = ""
+			@queryArray.each do |word|
+				@query = @query + word + "%20"
+			end
+			@query = @query[0..-4] 
+		end
 	end
 
 @next

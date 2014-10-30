@@ -31,8 +31,11 @@ class User::UsersController < ApplicationController
   #Borra un usuario
   def destroy    
     @user.destroy
+
+    answer = Array.new
+    answer << 'Eliminado correctamente'
     respond_to do |format|        
-        format.json { head :no_content }
+        format.json { render json: answer.as_json }
       end
   end
 

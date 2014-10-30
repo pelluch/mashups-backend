@@ -1,7 +1,5 @@
 class Mashup < ActiveRecord::Base
 
-	 before_destroy 	:destroy_associations
-
 	has_many 	:links
 	has_many 	:keywords
 	
@@ -18,7 +16,7 @@ class Mashup < ActiveRecord::Base
 
 	def self.clonar m1
 		m2 = m1.dup
-
+		m2.save
 	    m1.links.each do |l|
 	      link = l.dup
 	      link.save
@@ -29,7 +27,7 @@ class Mashup < ActiveRecord::Base
 	      link.save
 	      m2.keywords << link
 	    end
-		m2    
+	    m2    
 	end
 
 

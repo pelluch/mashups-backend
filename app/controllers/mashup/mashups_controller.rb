@@ -1,13 +1,13 @@
 class Mashup::MashupsController < ApplicationController
   # before_action :set_mashup, only: [:destroy]
   skip_before_action  :authenticate, only: [:index_total, :index, :show]
-  before_action       :get_user, only: [:index, :show]
+  before_action       :get_user, only: [:index]
   respond_to :json
 
   # GET /mashups
   # GET /mashups.json
   def index_total
-    @mashups = Mashup.all
+    @mashups = Mashup.where.not(name: 'temporal')
     respond_to do |format|
       format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
@@ -27,11 +27,10 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups/1.json
   def show
     @mashup = Mashup.find(params[:id])    
-    if @user
-      @user.temporal.links.delete_all
-      @user.temporal.keywords.delete_all
-      
-      @user.temporal = Mashup.clonar @mashups  
+    if params[:user_id]
+      authenticate
+      @user.regenerate_temporal @mashup
+      @user.save
     end 
     respond_to do |format|
       format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
@@ -55,18 +54,14 @@ class Mashup::MashupsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /mashups/1
-  # PATCH/PUT /mashups/1.json
+  # PATCH/PUT /mashups/
   def update
-    @user.temporal.links.delete_all
-    @user.temporal.keywords.delete_all
-
     m = @user.temporal
     #@user.temporal.generate(params[:parameters])
     m.update(parameters: params[:parameters])
 
     Link.create(value: 3, link: "#", title: "una noticia", mashup_id: m.id, link_source_id: 1)
-    Link.create(value: 3, link: "#", title: "otra noticia", mashup_id: m.id, link_source_id: 4)
+    #Link.create(value: 3, link: "#", title: "otra noticia", mashup_id: m.id, link_source_id: 4)
     #Link.create(value: 3, link: "#", title: "alguna noticia", mashup_id: m.id, link_source_id: 2)
     #Link.create(value: 3, link: "#", title: "un post", mashup_id: m.id, link_source_id: 2)
     #Link.create(value: 3, link: "#", title: "otra cosa", mashup_id: m.id, link_source_id: 3)
@@ -80,9 +75,7 @@ class Mashup::MashupsController < ApplicationController
   # DELETE /mashups/1
   # DELETE /mashups/1.json
   def destroy
-    mashup = @user.mashups.find(params[:mashup_id])
-    mashup.links.delete_all
-    mashup.keywords.delete_all
+    mashup = @user.mashups.find(params[:id])
     mashup.destroy
 
     respond_to do |format|

@@ -14,7 +14,8 @@ Rails.application.routes.draw do
 
   namespace :mashup do
     get '/mashups/all' => 'mashups#index_total'
-    resources :mashups, except: [:edit, :new]
+    resources :mashups, except: [:edit, :update]
+    put 'mashups/' => 'mashups#update'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

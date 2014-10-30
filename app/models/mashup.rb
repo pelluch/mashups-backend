@@ -11,7 +11,10 @@ class Mashup < ActiveRecord::Base
 
 	def generate params
 		a = ParserAIFacade::QueryManager.new
-		a.parse_and_filter params, [:cnn, :emol, :gobierno_de_chile, :twitter], 5
+		objeto = a.parse_and_filter "hola como estas", ['cnn', 'emol', 'gobierno_de_chile', 'twitter'], 5
+
+		objeto[:words_by_relevance]
+		objeto[:source_elements_by_relevance]
 	end
 
 	def self.clonar m1

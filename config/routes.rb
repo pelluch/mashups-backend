@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   namespace :mashup do
     get '/mashups/all' => 'mashups#index_total'
-    resources :mashups, except: [:edit, :new, :update]
+    resources :mashups, except: [:edit, :update]
     put 'mashups/' => 'mashups#update'
   end
 

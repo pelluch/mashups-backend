@@ -1,4 +1,4 @@
-require test_heper.rb
+require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
 	

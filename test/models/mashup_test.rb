@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MashupTest < ActiveSuppor::TestCase
+class MashupTest < ActiveSupport::TestCase
 
 	test "mashup should be saved" do
 		mashup = Mashup.new

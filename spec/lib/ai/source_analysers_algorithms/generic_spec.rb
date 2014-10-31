@@ -5,6 +5,13 @@ RSpec.describe AI::SourceAnalysersAlgorithms::Generic do
     let(:generic_algorithm) { AI::SourceAnalysersAlgorithms::Generic.new }
     describe :analyse_source do
 
+        it "should return correct relevance" do
+            source_element = AI::Source::Element.new
+            source_element.content = "Content about sports. People like sports."
+            query = "sports"
+            expect(generic_algorithm.analyse_source(source_element, query).relevance).to be 2
+        end
+
     end
 
     describe :map_reduce do

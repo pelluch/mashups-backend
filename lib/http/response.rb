@@ -1,14 +1,16 @@
 class HTTP::Response
 
-    attr_accessor :success, :error, :body, :status, :type
+    attr_accessor :success, :error, :body, :status, :type, :json
 
     def initialize(params = {})
         params.each do |key, value|
             instance_variable_set("@#{key}", value)
         end
+
+        @json ||= parse_json
     end
 
-    def json
+    def parse_json
         return nil unless body
         begin
             JSON.parse body

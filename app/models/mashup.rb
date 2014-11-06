@@ -21,7 +21,9 @@ class Mashup < ActiveRecord::Base
 		objeto = a.parse_and_filter params2, sources, 6
 		
 
-		#puts objeto[:words_by_relevance]
+		puts objeto[:words_by_relevance]
+
+		
 		objeto[:source_elements_by_relevance][0..15].each do |a|
 			#puts "1.- Hash: #{a}"
 			relevance = a['relevance']

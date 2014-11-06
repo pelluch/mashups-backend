@@ -15,10 +15,10 @@ module ParserAIFacade
 			ai_processor = AI::SourceElementProcessor.new
 			ai_data = ai_processor.build_source_elements(ready_for_ai_json)
 			source_elements_by_relevance = ai_processor.get_source_elements_by_relevance(ai_data, query)
-			words_by_relevance = ai_processor.get_words_by_relevance(ai_data, query)
+			#words_by_relevance = ai_processor.get_words_by_relevance(ai_data, query)
 
-			{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
-			
+			#{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
+			{:source_elements_by_relevance => source_elements_by_relevance.as_json}
 
 		end
 	end

@@ -8,6 +8,7 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups.json
   def index_total
     @mashups = Mashup.where.not(name: 'temporal')
+
     respond_to do |format|
       format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
@@ -27,13 +28,14 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups/1.json
   def show
     @mashup = Mashup.find(params[:id])    
-    if params[:user_id] || params[:login]
-      authenticate
-      if @user.temporal.id != @mashup.id        
-        @user.regenerate_temporal @mashup
-        @user.save
-      end
-    end 
+    
+    # if params[:user_id] || params[:login]
+    #   authenticate
+    #   if @user.temporal.id != @mashup.id        
+    #     @user.regenerate_temporal @mashup
+    #     @user.save
+    #   end
+    # end 
     respond_to do |format|
       format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
       #format.json { render json: @mashup }
@@ -43,6 +45,7 @@ class Mashup::MashupsController < ApplicationController
   def new
     @user.reset_temporal
     @user.save
+
     respond_to do |format|
       #format.json { render json: @user.temporal.as_json }
       format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
@@ -52,10 +55,13 @@ class Mashup::MashupsController < ApplicationController
   # POST /mashups
   # POST /mashups.json
   def create
-    @mashup = Mashup.clonar @user.temporal
+    @mashup = @user.temporal
     
     @mashup.name = params[:name]
     @user.mashups << @mashup
+
+
+    @user.generate
     respond_to do |format|
       if @mashup.save
         format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
@@ -76,12 +82,12 @@ class Mashup::MashupsController < ApplicationController
       parametros << p
     end
 
-    m.generate(parametros)
+    #sources = params[:sources]
+    sources = ['twitter']
+    m.generate(parametros, sources)
     
     m.update(parameters: parametros)
     m.save
-
-
     
 
     respond_to do |format|

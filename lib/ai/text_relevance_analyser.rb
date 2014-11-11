@@ -5,22 +5,22 @@ module AI
 
         def initialize
             self.algorithms = Hash.new
-            generic =  AI::TextAnalysers::Base.new
-            self.algorithms = { :generic => generic }
+            textalytics =  AI::TextAnalysers::Textalytics.new
+            self.algorithms = { :textalytics => textalytics }
         end
 
 		def analyse(source_element, query)
-            algorithms[:generic].analyse_text(source_element, query)
+            algorithms[:textalytics].analyse_text(source_element, query)
 		end
 
-		def analyse_batch(contents, query)
+		def analyse_batch(source_elements, query)
             result = Array.new
             source_elements.each do |se|
                 result << analyse(se, query)
             end
             result.sort_by!{|e| -e.relevance}
             result
-		end
+        end
 
 	end
 end

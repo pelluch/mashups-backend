@@ -15,16 +15,25 @@ class HtmlSourceAdapter < SourceAdapter
 		end
 
 		while ret.length<limit
+			prev=ret.length
+
+			puts ret.length
 			nokogiri_html = self.getHtml
 			json=buildJsonHtml(nokogiri_html)
 			ret=ret + json
+
+			if prev==ret.length
+				break
+			end
 		end
 
 		return ret[0,limit]
 	end
 
   	def getHtml	
+
   		page = Nokogiri::HTML(open(@url))
+  		puts 'ola'
   		return page
 	end
 

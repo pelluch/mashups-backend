@@ -82,8 +82,9 @@ class Mashup::MashupsController < ApplicationController
       parametros << p
     end
 
-    #sources = params[:sources]
-    sources = ['twitter']
+    sources = params[:sources]
+    #sources = ['twitter']
+    sources.delete_if { |a| a == "" } 
     m.generate(parametros, sources)
     
     m.update(parameters: parametros)

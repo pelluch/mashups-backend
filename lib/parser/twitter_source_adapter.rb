@@ -2,6 +2,11 @@ class TwitterSourceAdapter < JSONSourceAdapter
 @searchURI
 @params
 @next
+
+def initialize(query_params, url = "")
+    	#String que contiene las palabras ingresadas por el usuario
+		super(URI.encode(query_params),"")
+	end
 def getAPIJSON()
 	updateUri()
 	request = Net::HTTP::Get.new @searchURI

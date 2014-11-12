@@ -40,7 +40,6 @@ def buildJSONAPI(result, limit)
 	if limit > 15 and i >= 15
 		response = getAPIJSON().body
 		ret2 = buildJSONAPI(response, limit - 15)
-		puts ret2
 		ret2.each do |p|
 			ret << p
 		end

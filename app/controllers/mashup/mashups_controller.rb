@@ -73,26 +73,37 @@ class Mashup::MashupsController < ApplicationController
 
   # PATCH/PUT /mashups/
   def update
-    @user.reset_temporal
-    @user.save
-    m = @user.temporal
+    unless params.has_key? :parameters
+       redirect_to new_mashup_mashup_path
+    else
+      
+      @user.reset_temporal
+      @user.save
+      m = @user.temporal
 
-    parametros = Array.new
-    params[:parameters].each do |p|
-      parametros << p
-    end
 
-    sources = params[:sources]
-    #sources = ['twitter']
-    sources.delete_if { |a| a == "" } 
-    m.generate(parametros, sources)
-    
-    m.update(parameters: parametros)
-    m.save
-    
+      parametros = Array.new
+      params[:parameters].each do |p|
+        parametros << p
+      end
 
-    respond_to do |format|
-      format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
+      unless params.has_key? :sources
+        sources = params[:sources]
+        #sources = ['twitter']
+        sources.delete_if { |a| a == "" } 
+      else
+        sources = ['twitter', 'emol']
+      end
+      
+      m.generate(parametros, sources)
+      
+      m.update(parameters: parametros)
+      m.save
+      
+
+      respond_to do |format|
+        format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
+      end
     end
   end
 
@@ -100,8 +111,9 @@ class Mashup::MashupsController < ApplicationController
   # DELETE /mashups/1.json
   def destroy
     mashup = @user.mashups.find(params[:id])
-    mashup.destroy
-
+    unless mashup.name == 'temporal'
+      mashup.destroy
+    end
     respond_to do |format|
       format.json { render json: @user }
     end

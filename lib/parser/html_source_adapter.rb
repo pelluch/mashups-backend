@@ -21,6 +21,8 @@ class HtmlSourceAdapter < SourceAdapter
 			json=buildJsonHtml(nokogiri_html)
 			ret=ret + json
 
+			nextHtml(nokogiri_html)
+
 			if prev==ret.length
 				break
 			end

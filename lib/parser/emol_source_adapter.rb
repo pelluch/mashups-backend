@@ -23,8 +23,6 @@ class EmolSourceAdapter < HtmlSourceAdapter
         ret.append(json)
       end
 
-      nextHtml(nokogiri_html)
-
       return ret
   end
 

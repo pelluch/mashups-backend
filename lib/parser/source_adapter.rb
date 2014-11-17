@@ -10,7 +10,7 @@ class SourceAdapter
 
   	end
 
-	def getJSON(limit)
+	def getJSON(timeout, limit)
 		raise NotImplementedError.new('getJSON debe ser implementado en una clase hija')
 	end
 

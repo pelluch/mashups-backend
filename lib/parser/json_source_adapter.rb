@@ -7,7 +7,7 @@ class JSONSourceAdapter < SourceAdapter
     	@offset=0
   	end
 
-	def getJSON(limit)
+	def getJSON(timeout, limit)
 		ret = []
 		if limit <0
 			raise "Limit debe ser mayor a 0"

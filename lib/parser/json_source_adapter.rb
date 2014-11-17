@@ -7,14 +7,14 @@ class JSONSourceAdapter < SourceAdapter
     	@offset=0
   	end
 
-	def getJSON(timeout, limit)
+	def getJSONImplement(limit)
+
 		ret = []
 		if limit <0
 			raise "Limit debe ser mayor a 0"
 		end
+
 		result = getAPIJSON().body
-		# puts result
-		# puts parsedData
 		ret = buildJSONAPI(result, limit)
 		return ret
 	end

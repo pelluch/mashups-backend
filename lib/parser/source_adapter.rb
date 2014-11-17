@@ -10,7 +10,19 @@ class SourceAdapter
 
   	end
 
-	def getJSON(timeout, limit)
+	def getJSON(limit)
+		begin
+			return getJSONImplement(limit)
+		rescue => error
+			puts error
+			return []
+		end
+	end
+
+
+	private
+
+	def getJSONImplement(limit)
 		raise NotImplementedError.new('getJSON debe ser implementado en una clase hija')
 	end
 

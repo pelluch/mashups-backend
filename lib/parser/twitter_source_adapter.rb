@@ -2,19 +2,17 @@ class TwitterSourceAdapter < JSONSourceAdapter
 @searchURI
 @params
 
-	def initialize query_params
-		super(query_params, "")
-		if(@query.include?(" "))
-			@queryArray = @query.split
-			@query = ""
-			@queryArray.each do |word|
-				@query = @query + word + "%20"
-			end
-			@query = @query[0..-4] 
-		end
+	def initialize(query_params, url = "")
+
+		super(URI.encode(query_params), url)
 	end
 
 @next
+
+def initialize(query_params, url = "")
+    	#String que contiene las palabras ingresadas por el usuario
+		super(URI.encode(query_params),"")
+	end
 def getAPIJSON()
 	updateUri()
 	request = Net::HTTP::Get.new @searchURI
@@ -53,7 +51,6 @@ def buildJSONAPI(result, limit)
 	if limit > 15 and i >= 15
 		response = getAPIJSON().body
 		ret2 = buildJSONAPI(response, limit - 15)
-		puts ret2
 		ret2.each do |p|
 			ret << p
 		end
@@ -100,7 +97,7 @@ def getOAUTH()
 
 	oauth_signature_value = "GET&"+ CGI.escape("https://api.twitter.com/1.1/search/tweets.json") + "&" + CGI.escape(oauth_signature_value)
 
-	oauth_signature_key = CGI.escape("BOJ2V9b6Wxe38PmzsH984E8QFRUnqEhNdeghhVmS1p9HjsHKR8") + "&" + CGI.escape("9NabTSTuQza3efM66wyN3J4alSix0fNZqFD3W4xQBDTmG")
+	oauth_signature_key = "BOJ2V9b6Wxe38PmzsH984E8QFRUnqEhNdeghhVmS1p9HjsHKR8" + "&" + "9NabTSTuQza3efM66wyN3J4alSix0fNZqFD3W4xQBDTmG"
 	
 	oauth_signature = CGI.escape(Base64.encode64(OpenSSL::HMAC.digest('sha1', oauth_signature_key, oauth_signature_value)))
 	oauth_signature = oauth_signature.split("%3D")[0] + "%3D"

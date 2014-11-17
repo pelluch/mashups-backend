@@ -8,11 +8,6 @@ class TwitterSourceAdapter < JSONSourceAdapter
 	end
 
 @next
-
-def initialize(query_params, url = "")
-    	#String que contiene las palabras ingresadas por el usuario
-		super(URI.encode(query_params),"")
-	end
 def getAPIJSON()
 	updateUri()
 	request = Net::HTTP::Get.new @searchURI
@@ -24,37 +19,36 @@ def getAPIJSON()
 end
 
 def buildJSONAPI(result, limit)
-	ret =[] 
-	contents = []
-	user = []
-	url = []
-	dates = []
+	ret =[]
 
 	parsedData = JSON.parse(result)
 	@next = parsedData["search_metadata"]["next_results"]
 	@next = @next[1, @next.length]
 	parsedData = parsedData["statuses"]
 	parsedData.each do |article|
-		contents << article["text"]
-		user << article["user"]
-		url << "https://twitter.com/N3R4S2/status/#{article["id"]}"
-		dates << article["created_at"]
-	end
-	i = 0
-	type = "twitter"
-	while (i < limit && i < contents.length && i < 15)
-		json = {'author' => user[i]["name"], 'date' => dates[i], 'title'=>  contents[i], 'content' => contents[i],'source'=> {'url'=> url[i], 'type' => type, 'extras' => user[i]["id"]}}.to_json
+
+		json = {
+			'author' => article["user"]["name"],
+			'date' => article["created_at"],
+			'title'=>  article["text"], 'content' => article["text"],
+			'source'=> {
+				'url'=> "https://twitter.com/N3R4S2/status/#{article["id"]}",
+				'type' => "twitter",
+				'extras' => article["user"]["followers_count"]
+				}
+			}.to_json
 		ret << json
-		i += 1
+		
 	end
 
-	if limit > 15 and i >= 15
+	if limit > 15 and ret.length >= 15
 		response = getAPIJSON().body
 		ret2 = buildJSONAPI(response, limit - 15)
 		ret2.each do |p|
 			ret << p
 		end
 	end
+
 	ret
 end
 

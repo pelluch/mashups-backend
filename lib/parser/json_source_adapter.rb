@@ -7,7 +7,7 @@ class JSONSourceAdapter < SourceAdapter
     	@offset=0
   	end
 
-	def getJSONImplement(limit)
+	def getJSONImplement(timeout, limit)
 
 		ret = []
 		if limit <0

@@ -12,9 +12,20 @@ class SourceManager
 			source_adapters << parser_objects[sp]
 		end
 		result = Array.new
+
+		threads = []
+
 		source_adapters.each do |adapter|
-			result += adapter.getJSON(timeout, limit)
+			threads << Thread.new { Thread.current[:partial] = adapter.getJSON(timeout, limit) }
+			#result += adapter.getJSON(timeout, limit) }
 		end
+
+		threads.each do |t|
+			t.join
+			result << t[:partial]
+		end
+
+		#threads.each { |thr| thr.join; result << thr }
 
 		return result
 

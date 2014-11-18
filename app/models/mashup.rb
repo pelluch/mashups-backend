@@ -38,9 +38,6 @@ class Mashup < ActiveRecord::Base
 			#puts "1.- Hash: #{a}"
 			keyword = a['word']
 			value = a['relevance']
-			
-			
-			
 			Keyword.create(keyword: keyword, value: value, mashup_id: self.id)
 		end
 	end

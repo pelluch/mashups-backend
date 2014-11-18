@@ -41,9 +41,7 @@ module AI
 				conn = HTTP::FaradayConnector.new MEDIA_API_HOST
 				url = "#{MEDIA_API_URL}?key=#{MEDIA_ANALYSIS_KEY}&doc=#{doc.to_json}"
 				response = conn.post url
-				binding.pry
-				
-				a = 2
+				result = response.json["result"]
 
 			end
 

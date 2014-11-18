@@ -14,15 +14,15 @@ class BBCSourceAdapter < HtmlSourceAdapter
   		ret=[]	
 
   		nokogiri_html.css(".hard-news-unit").map do |res|
-  			title = res.css(".hard-news-unit__headline").text.strip 	#.encode("UTF-8")
-  			content = res.css(".hard-news-unit__body").text.strip
-  			date = res.css(".date").text.strip
+  			title = res.css(".hard-news-unit__headline").text.squish.gsub("\"", "").encode("UTF-8")
+  			content = res.css(".hard-news-unit__body").text.squish.gsub("\"", "").encode("UTF-8")
+  			date = res.css(".date").text.strip.encode("UTF-8")
   			#source
-  			url= res.css(".hard-news-unit__headline a").attribute("href").to_s
+  			url= res.css(".hard-news-unit__headline a").attribute("href").to_s.encode("UTF-8")
   			type = 'bbc'
 
-  			json={'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type, 'extras' =>  title}}.to_json
-  			ret.append(json)
+  			json = {'author' => nil, 'date' => date, 'content' => content, 'source'=> {'url'=> url, 'type' => type, 'extras' =>  title}}.to_json
+  			ret << json
   		end
 
   		return ret

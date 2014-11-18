@@ -14,17 +14,21 @@ module AI
 
 			protected
 			def assign_score content, mapped, query, title
-				score = 0
-				query.split(' ').each do |word|
-					if mapped.has_key?(word)
-						score += mapped[word]
+				begin
+					score = 0
+					query.split(' ').each do |word|
+						if mapped.has_key?(word)
+							score += mapped[word]
+						end
 					end
-				end
-				query.gsub(/\.|,/, ' ').squeeze(' ').split(' ').each do |word|
-			 		score += (title.include?(word) ? SCORE_FOR_TITLE_MATCH : 0)
-				end
-				score = length_factor(score, content.length)
-				return score
+					query.gsub(/\.|,/, ' ').squeeze(' ').split(' ').each do |word|
+				 		score += (title.include?(word) ? SCORE_FOR_TITLE_MATCH : 0)
+					end
+					score = length_factor(score, content.length)
+					return score	
+				rescue Exception => e
+					return 0
+				end				
 			end
 		end
 	end

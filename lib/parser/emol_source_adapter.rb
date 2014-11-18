@@ -12,14 +12,17 @@ class EmolSourceAdapter < HtmlSourceAdapter
     def buildJsonHtml(nokogiri_html)
       ret=[]  
       nokogiri_html.css(".resultado").map do |res|
-        title=res.css(".title").text.strip  #.encode("UTF-8")
-        content=res.css(".teaser").text.strip 
+        title=res.css(".title").text.squish.gsub("\"", "").encode("UTF-8")
+        content=res.css(".teaser").text.squish.gsub("\"", "").encode("UTF-8")
         date = /[0-9]{2}\/[0-9]{2}\/[0-9]{2}/.match(res.css(".fecha_noticia").text).to_s.to_datetime
         #source
         url= res.css(".title a").attribute('href').to_s
         type = 'emol'
 
-        json={'title'=>  title, 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type}}.to_json
+        if content == ""
+          content = title
+        end
+        json={'author' => nil, 'title'=>  title, 'content' => content,'date' => date,'source'=> {'url'=> url, 'type' => type}}.to_json
         ret.append(json)
       end
 

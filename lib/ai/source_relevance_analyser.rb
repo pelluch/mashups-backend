@@ -9,11 +9,15 @@ module AI
 			news =  AI::SourceAnalysersAlgorithms::News.new
 			twitter =  AI::SourceAnalysersAlgorithms::Twitter.new
 
-			self.algorithms = {:emol => news, :cnn => news, :twitter => twitter, :gobierno_de_chile => news}
+			self.algorithms = {:emol => news, :cnn => news, :twitter => twitter, :gobierno_de_chile => news, :bbc => news}
 
 		end
 		def analyse(source_element, query)
-			algorithms[source_element.description.type].analyse_source(source_element, query)
+			unless (algorithms[source_element.description.type] == nil)
+				algorithms[source_element.description.type].analyse_source(source_element, query)	
+			else
+				algorithms[:cnn].analyse_source(source_element, query)	
+			end
 		end
 
 		def analyse_batch(source_elements, query)

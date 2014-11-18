@@ -18,7 +18,7 @@ class Mashup < ActiveRecord::Base
 		params2 = params2[0..-2]
 				
 		a = ParserAIFacade::QueryManager.new
-		objeto = a.parse_and_filter params2, sources, 10, 6
+		objeto = a.parse_and_filter params2, sources, 10, 8
 
 		#puts objeto[:words_by_relevance]
 

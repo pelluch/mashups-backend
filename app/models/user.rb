@@ -1,8 +1,18 @@
 class User < ActiveRecord::Base
+	before_create      :generate
 	has_secure_password
 	before_create	:generate
 
 	validates_uniqueness_of :name, :mail
+
+	# validates 	:name, presence: true, if: -> { name.present? }
+	# validates 	:mail, presence: true, if: -> { mail.present? }
+	# validates 	:password, presence: true, if: -> { password.present? }
+	# validates 	:name, length: { minimum: 4, maximum: 20 }
+	# validates 	:password, length: { minimum: 8, maximum: 20 },if: -> { password.present? }
+	# validates 	:mail, format: { with: /\A[\w__.+-]+@[\w]+\.[\w]{2,4}+\Z/}
+	# validates 	:name, format: { with: /\A[-a-z]+\Z/ }
+
 	validates 	:name, presence: true, :if => :name
 	validates 	:password, presence: true, :if => :password 
 	validates   :mail, presence: true, :if => :mail
@@ -10,6 +20,7 @@ class User < ActiveRecord::Base
 	validates 	:password, length: { minimum: 8, maximum: 20 }, :if => :password 	
 	validates 	:mail, format: { with: /\A[\w__.+-]+@[\w]+\.[\w]{2,4}+\Z/}
 	#validates 	:name, format: { with: /\A[-a-z]+\Z/ }
+
 	
 	has_many	:mashups
 	
@@ -58,7 +69,7 @@ class User < ActiveRecord::Base
 		puts "#{self.token} asd #{token}"
 		if token != self.token || self.token == ''
 			return false
-		else
+		else			
 			return true
 		end
 	end

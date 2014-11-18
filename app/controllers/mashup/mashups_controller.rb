@@ -14,11 +14,11 @@ class Mashup::MashupsController < ApplicationController
     end
   end
 
+
   # GET /mashups
   # GET /mashups.json
   def index
     @mashups = @user.mashups
-
     respond_to do |format|
       format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
@@ -45,7 +45,6 @@ class Mashup::MashupsController < ApplicationController
   def new
     @user.reset_temporal
     @user.save
-
     respond_to do |format|
       #format.json { render json: @user.temporal.as_json }
       format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
@@ -56,12 +55,11 @@ class Mashup::MashupsController < ApplicationController
   # POST /mashups.json
   def create
     @mashup = @user.temporal
-    
     @mashup.name = params[:name]
     @user.mashups << @mashup
 
-
     @user.generate
+
     respond_to do |format|
       if @mashup.save
         format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :user_normal, only: [:create, :update]
   end
 
-  get '/auth/:provider/callback' => 'sessions_facebook#create'
+  #get '/auth/:provider/callback' => 'sessions_facebook#create'
 
   namespace :mashup do
     get '/mashups/all' => 'mashups#index_total'

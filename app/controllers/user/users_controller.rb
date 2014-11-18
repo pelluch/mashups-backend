@@ -14,7 +14,7 @@ class User::UsersController < ApplicationController
   #Dado un usuario se debe retornar un .json con los datos del usuario y sus mashups  
   def show        
     respond_to do |format|      
-      format.json { render json: @user }
+      format.json { render json: @user.as_json(include: {mashups: {}})}
     end
   end
 
@@ -30,9 +30,12 @@ class User::UsersController < ApplicationController
 
   #Borra un usuario
   def destroy    
-  	@user.destroy
-      respond_to do |format|        
-        format.json { head :no_content }
+    @user.destroy
+
+    answer = Array.new
+    answer << 'Eliminado correctamente'
+    respond_to do |format|        
+        format.json { render json: answer.as_json }
       end
   end
 

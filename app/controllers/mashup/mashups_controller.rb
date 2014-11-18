@@ -1,12 +1,26 @@
 class Mashup::MashupsController < ApplicationController
-  skip_before_action  :authenticate, only: [:index, :show]
+  # before_action :set_mashup, only: [:destroy]
+  skip_before_action  :authenticate, only: [:index_total, :index, :show]
   before_action       :get_user, only: [:index]
+  respond_to :json
+
+  # GET /mashups
+  # GET /mashups.json
+  def index_total
+    @mashups = Mashup.where.not(name: 'temporal')
+
+    respond_to do |format|
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
+    end
+  end
+
+
   # GET /mashups
   # GET /mashups.json
   def index
     @mashups = @user.mashups
     respond_to do |format|
-      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}}}) }
+      format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
   end
 
@@ -14,33 +28,79 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups/1.json
   def show
     @mashup = Mashup.find(params[:id])    
+    
+    # if params[:user_id] || params[:login]
+    #   authenticate
+    #   if @user.temporal.id != @mashup.id        
+    #     @user.regenerate_temporal @mashup
+    #     @user.save
+    #   end
+    # end 
     respond_to do |format|
-      format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}}}) }
+      format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
+      #format.json { render json: @mashup }
+    end
+  end
+
+  def new
+    @user.reset_temporal
+    @user.save
+    respond_to do |format|
+      #format.json { render json: @user.temporal.as_json }
+      format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
     end
   end
 
   # POST /mashups
   # POST /mashups.json
   def create
-    @mashup = @user.temporal.clone
+    @mashup = @user.temporal
+    @mashup.name = params[:name]
+    @user.mashups << @mashup
+
+    @user.generate
+
     respond_to do |format|
       if @mashup.save
-        format.json { render json: @mashup, status: :created }
+        format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
       else
         format.json { render json: @mashup.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /mashups/1
-  # PATCH/PUT /mashups/1.json
+  # PATCH/PUT /mashups/
   def update
-    @user.temporal.parser
-    respond_to do |format|
-      if @user.temporal.update(mashup_params)
-        format.json { render jason: @user.temporal }
+    unless params.has_key? :parameters
+       redirect_to new_mashup_mashup_path
+    else
+      
+      @user.reset_temporal
+      @user.save
+      m = @user.temporal
+
+
+      parametros = Array.new
+      params[:parameters].each do |p|
+        parametros << p
+      end
+
+      if params.has_key? :sources
+        sources = params[:sources]
+        #sources = ['twitter']
+        sources.delete_if { |a| a == "" } 
       else
-        format.json { render json: @user.temporal.errors, status: :unprocessable_entity }
+        sources = ['twitter', 'emol']
+      end
+      
+      m.generate(parametros, sources)
+      
+      m.update(parameters: parametros)
+      m.save
+      
+
+      respond_to do |format|
+        format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
       end
     end
   end
@@ -48,9 +108,12 @@ class Mashup::MashupsController < ApplicationController
   # DELETE /mashups/1
   # DELETE /mashups/1.json
   def destroy
-    @user.mashup.find(params[:id])
+    mashup = @user.mashups.find(params[:id])
+    unless mashup.name == 'temporal'
+      mashup.destroy
+    end
     respond_to do |format|
-      format.json { head :no_content }
+      format.json { render json: @user }
     end
   end
 

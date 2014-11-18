@@ -1,9 +1,8 @@
-class User::UsersNormalController < User::UsersController
+class User::UserNormalController < User::UsersController
   
   #Generar una cuenta normal
   def create
 	@user = User.new(user_params)
-
   	respond_to do |format|
       if @user.save
         format.json { render json: @user, status: :created }
@@ -15,7 +14,6 @@ class User::UsersNormalController < User::UsersController
 
   #Actualizar una cuenta normal
   def update
-    params[:user].delete(:password) if params[:user][:password].blank?
   	respond_to do |format|
       if @user.update(user_params)
         format.json { render json: @user }

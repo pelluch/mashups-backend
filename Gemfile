@@ -21,6 +21,9 @@ gem 'active_model_serializers', '~> 0.9.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'omniauth-facebook'
 
+#gema para scrappear internet
+gem 'nokogiri'
+
 # Rails REST API documentation tool
 gem 'apipie-rails', '~> 0.2.6'
 

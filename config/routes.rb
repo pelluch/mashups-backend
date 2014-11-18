@@ -6,14 +6,18 @@ Rails.application.routes.draw do
     # get '/signin' => 'sessions_facebook#new', :as => :signin
 
     #get '/home' => 'sessions_facebook#home'
-    resources :users, except: [:edit, :new]
-    resources :users_normal, only: [:create, :update]
+    resources :users, except: [:edit, :new, :create, :update]
+    resources :user_normal, only: [:create, :update]
   end
 
   get '/auth/:provider/callback' => 'sessions_facebook#create'
 
   namespace :mashup do
-    resources :mashups, except: [:edit, :new]
+    get '/mashups/all' => 'mashups#index_total'
+    resources :mashups, except: [:edit, :update]
+    put 'mashups/' => 'mashups#update'
+
+    resources :sources, only: [:index]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

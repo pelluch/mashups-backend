@@ -18,10 +18,9 @@ class Mashup < ActiveRecord::Base
 		params2 = params2[0..-2]
 				
 		a = ParserAIFacade::QueryManager.new
-		objeto = a.parse_and_filter params2, sources, 10, 8
+		objeto = a.parse_and_filter params2, sources, 10, 6
 
-		
-		
+
 		objeto[:source_elements_by_relevance][0..15].each do |a|
 			#puts "1.- Hash: #{a}"
 			relevance = a['relevance']
@@ -35,15 +34,15 @@ class Mashup < ActiveRecord::Base
 			Link.create(link: source_elem['description']['url'], title: source_elem['content'], value: relevance, content: source_elem['description']['extra'], mashup_id: self.id, link_source_id: id)
 		end
 
-		# objeto[:words_by_relevance][0..20].each do |a|
-		# 	#puts "1.- Hash: #{a}"
-		# 	keyword = a['word']
-		# 	value = a['relevance']
+		objeto[:words_by_relevance][0..20].each do |a|
+			#puts "1.- Hash: #{a}"
+			keyword = a['word']
+			value = a['relevance']
 			
 			
 			
-		# 	Keyword.create(keyword: keyword, value: value, mashup_id: self.id)
-		# end
+			Keyword.create(keyword: keyword, value: value, mashup_id: self.id)
+		end
 	end
 
 	def self.clonar m1

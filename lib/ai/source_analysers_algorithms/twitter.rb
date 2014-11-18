@@ -2,7 +2,7 @@ module AI
 	module SourceAnalysersAlgorithms
 		class Twitter < AI::SourceAnalysersAlgorithms::Generic
 			SCORE_BY_FOLLOWERS = 1/100000
-			TWITTER_FACTOR = 1.8
+			TWITTER_FACTOR = 1
 			def analyse_source(source_element, query)
 				followers = source_element.description.extras.to_i
 				score = assign_score(source_element.content, map_reduce(source_element.content), query, followers)

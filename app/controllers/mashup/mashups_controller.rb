@@ -74,7 +74,7 @@ class Mashup::MashupsController < ApplicationController
   # PATCH/PUT /mashups/
   def update
     unless params.has_key? :parameters
-       redirect_to new_mashup_mashup_path
+       params[:parameters] = []
     else
       
       @user.reset_temporal
@@ -87,13 +87,13 @@ class Mashup::MashupsController < ApplicationController
         parametros << p
       end
 
-      if params.has_key? :sources
+      #if params.has_key? :sources
         sources = params[:sources]
-        #sources = ['twitter']
-        sources.delete_if { |a| a == "" } 
-      else
-        sources = ['twitter', 'emol']
-      end
+        
+      #   sources.delete_if { |a| a == "" } 
+      # else
+      #   sources = ['twitter', 'emol']
+      # end
       
       m.generate(parametros, sources)
       

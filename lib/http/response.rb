@@ -6,7 +6,11 @@ class HTTP::Response
         params.each do |key, value|
             instance_variable_set("@#{key}", value)
         end
-
+        if status != 200
+            self.success = false
+        else
+            self.success = true
+        end
         @json ||= parse_json
     end
 

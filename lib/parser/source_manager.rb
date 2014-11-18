@@ -22,7 +22,7 @@ class SourceManager
 
 		threads.each do |t|
 			t.join
-			result << t[:partial]
+			t[:partial].each{|x| result << x}
 		end
 
 		#threads.each { |thr| thr.join; result << thr }

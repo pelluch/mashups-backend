@@ -8,7 +8,7 @@ class HtmlSourceAdapter < SourceAdapter
     	@offset=0
   	end
 
-	def getJSONImplement(limit)
+	def getJSONImplement(timeout, limit)
 		ret=[]
 		if limit<0
 			raise 'limit no puede ser menor a cero'
@@ -17,10 +17,13 @@ class HtmlSourceAdapter < SourceAdapter
 		while ret.length<limit
 			prev=ret.length
 
-			puts ret.length
 			nokogiri_html = self.getHtml
 			json=buildJsonHtml(nokogiri_html)
 			ret=ret + json
+
+			if ret.length < limit
+				nextHtml(nokogiri_html)
+			end
 
 			if prev==ret.length
 				break
@@ -32,7 +35,7 @@ class HtmlSourceAdapter < SourceAdapter
 
   	def getHtml	
 
-  		uri = URI.parse(url)
+  		uri = URI.parse(@url)
 		http = Net::HTTP.new(uri.host, uri.port)
 		http.open_timeout = 5 #Segundos por request
 		http.read_timeout = 5 #Segundos por request

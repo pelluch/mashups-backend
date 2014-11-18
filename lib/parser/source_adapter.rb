@@ -10,9 +10,9 @@ class SourceAdapter
 
   	end
 
-	def getJSON(limit)
+	def getJSON(timeout, limit)
 		begin
-			return getJSONImplement(limit)
+			return getJSONImplement(timeout, limit)
 		rescue => error
 			puts error
 			return []

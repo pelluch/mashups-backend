@@ -11,6 +11,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20141118012704) do
+
+  create_table "keywords", force: true do |t|
+    t.string   "keyword"
+    t.integer  "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "mashup_id"
+  end
+
+  create_table "link_sources", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "photo"
+  end
+
+  create_table "links", force: true do |t|
+    t.string   "title"
+    t.string   "link"
+    t.integer  "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "mashup_id"
+    t.integer  "link_source_id"
+    t.text     "content"
+  end
+
+  create_table "mashups", force: true do |t|
+    t.string   "parameters"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "name"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "name"
+    t.string   "mail"
+    t.string   "password_digest"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "provider"
+    t.string   "uid"
+    t.integer  "mashup_id"
+    t.string   "photo"
+  end
 
 end

@@ -9,36 +9,29 @@ class Mashup < ActiveRecord::Base
 	serialize 	:parameters, Array
 
 
-	def generate params
+	def generate params, sources
 		params2 = ""
-		block = false
-		if params.size > 5
-			block = true
-		end
+		
 		params.each do |p|
 			params2 += "#{p} "
 		end
-
-
 		params2 = params2[0..-2]
 				
 		a = ParserAIFacade::QueryManager.new
-		if !block
-			objeto = a.parse_and_filter params2, ['emol', 'cnn', 'gobierno_de_chile', 'twitter'], 10
-		else
-			objeto = a.parse_and_filter params2, ['emol', 'gobierno_de_chile', 'twitter'], 10
-		end
+		objeto = a.parse_and_filter params2, sources, 10, 8
 
 		#puts objeto[:words_by_relevance]
-		objeto[:source_elements_by_relevance][0..20].each do |a|
+
+		objeto[:source_elements_by_relevance][0..15].each do |a|
 			#puts "1.- Hash: #{a}"
 			relevance = a['relevance']
 			source_elem = a['source_element']
 			
 			source = source_elem['source']
 			
+			puts source_elem['description']['type']
 			id = LinkSource.find_by_name(source_elem['description']['type']).id
-			id = id.to_i - 1
+			id = id.to_i
 			Link.create(link: source_elem['description']['url'], title: source_elem['content'], value: relevance, content: source_elem['description']['extra'], mashup_id: self.id, link_source_id: id)
 			
 		end

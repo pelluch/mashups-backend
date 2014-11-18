@@ -8,6 +8,7 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups.json
   def index_total
     @mashups = Mashup.where.not(name: 'temporal')
+
     respond_to do |format|
       format.json { render json: @mashups.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
     end
@@ -27,13 +28,14 @@ class Mashup::MashupsController < ApplicationController
   # GET /mashups/1.json
   def show
     @mashup = Mashup.find(params[:id])    
-    if params[:user_id] || params[:login]
-      authenticate
-      if @user.temporal.id != @mashup.id        
-        @user.regenerate_temporal @mashup
-        @user.save
-      end
-    end 
+    
+    # if params[:user_id] || params[:login]
+    #   authenticate
+    #   if @user.temporal.id != @mashup.id        
+    #     @user.regenerate_temporal @mashup
+    #     @user.save
+    #   end
+    # end 
     respond_to do |format|
       format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} })}
       #format.json { render json: @mashup }
@@ -43,6 +45,7 @@ class Mashup::MashupsController < ApplicationController
   def new
     @user.reset_temporal
     @user.save
+
     respond_to do |format|
       #format.json { render json: @user.temporal.as_json }
       format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
@@ -52,10 +55,13 @@ class Mashup::MashupsController < ApplicationController
   # POST /mashups
   # POST /mashups.json
   def create
-    @mashup = Mashup.clonar @user.temporal
+    @mashup = @user.temporal
     
     @mashup.name = params[:name]
     @user.mashups << @mashup
+
+
+    @user.generate
     respond_to do |format|
       if @mashup.save
         format.json { render json: @mashup.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }
@@ -67,25 +73,37 @@ class Mashup::MashupsController < ApplicationController
 
   # PATCH/PUT /mashups/
   def update
-    @user.reset_temporal
-    @user.save
-    m = @user.temporal
-
-    parametros = Array.new
-    params[:parameters].each do |p|
-      parametros << p
-    end
-
-    m.generate(parametros)
-    
-    m.update(parameters: parametros)
-    m.save
+    unless params.has_key? :parameters
+       redirect_to new_mashup_mashup_path
+    else
+      
+      @user.reset_temporal
+      @user.save
+      m = @user.temporal
 
 
-    
+      parametros = Array.new
+      params[:parameters].each do |p|
+        parametros << p
+      end
 
-    respond_to do |format|
-      format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
+      if params.has_key? :sources
+        sources = params[:sources]
+        #sources = ['twitter']
+        sources.delete_if { |a| a == "" } 
+      else
+        sources = ['twitter', 'emol']
+      end
+      
+      m.generate(parametros, sources)
+      
+      m.update(parameters: parametros)
+      m.save
+      
+
+      respond_to do |format|
+        format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
+      end
     end
   end
 
@@ -93,8 +111,9 @@ class Mashup::MashupsController < ApplicationController
   # DELETE /mashups/1.json
   def destroy
     mashup = @user.mashups.find(params[:id])
-    mashup.destroy
-
+    unless mashup.name == 'temporal'
+      mashup.destroy
+    end
     respond_to do |format|
       format.json { render json: @user }
     end

@@ -5,3 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+LinkSource.delete_all
+
+LinkSource.new name: "cnn", photo: "cnn.jpg"
+LinkSource.new name: "good_reads", photo: "good_reads.jpg"
+LinkSource.new name: "emol", photo: "emol.jpg"
+LinkSource.new name: "twitter", photo: "twitter.jpg"
+LinkSource.new name: "bbc", photo: "bbc.jpg"
+LinkSource.new name: "gobierno_de_chile", photo: "gobierno.jpg"

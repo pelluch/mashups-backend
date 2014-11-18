@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 	
 	has_many	:mashups
 	
+	#Genera el token y crea el mashup temporal del usuario
 	def generate
 		if self.token == nil
 			self.token = SecureRandom.hex
@@ -21,6 +22,7 @@ class User < ActiveRecord::Base
 		self.mashup_id = a.id
 	end
 
+	#Resetea y borra las referencias al mashup temporal actual
 	def reset_temporal
 		temp = self.temporal
 		temp.links.delete_all
@@ -29,20 +31,20 @@ class User < ActiveRecord::Base
 		temp.save
 	end
 
-	def regenerate_temporal (mash)
-		#self.temporal.destroy
-		temp = self.temporal
-		temp.links.delete_all
-		temp.keywords.delete_all
-      	self.generate
+	#Regenera el mashup temporl y se crea una copia de (mash)
+	# deprecated
+	# def regenerate_temporal (mash)
+	# 	temp = self.temporal
+	# 	temp.links.delete_all
+	# 	temp.keywords.delete_all
+ #      	self.generate
       	
-      	self.temporal = Mashup.clonar mash
-      	temp = self.temporal
-      	temp.name = 'temporal'
-      	temp.user_id = nil
-      	temp.save
-      	      	
-	end
+ #      	self.temporal = Mashup.clonar mash
+ #      	temp = self.temporal
+ #      	temp.name = 'temporal'
+ #      	temp.user_id = nil
+ #      	temp.save      	      	
+	# end
 
 	def temporal=(mash)
 		self.mashup_id = mash.id
@@ -60,16 +62,5 @@ class User < ActiveRecord::Base
 			return true
 		end
 	end
-
-	def self.create_with_omniauth(auth)
-	  create! do |user|
-	    user.provider = auth['provider']
-	    user.uid = auth['uid']
-	    if auth['info']
-	      user.name = auth['info']['name'] || ""
-	      user.email = auth['info']['email'] || ""
-	    end
-	  end
-	end
-
+	
 end

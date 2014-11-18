@@ -23,13 +23,12 @@ module AI
 
 				language = "es"
 				
-
 				doc = {
 					document: {
 						source: textalytics_source_type(source_element.description.type),
 						language: language,
 						id: 0,
-						txt: query
+						txt: source_element.content
 					}
 				}
 
@@ -41,9 +40,10 @@ module AI
 				conn = HTTP::FaradayConnector.new MEDIA_API_HOST
 				url = "#{MEDIA_API_URL}?key=#{MEDIA_ANALYSIS_KEY}&doc=#{doc.to_json}"
 				response = conn.post url
-				binding.pry
-				
-				a = 2
+				result = {
+					source_element: source_element,
+					result: response.json["result"]
+				}
 
 			end
 

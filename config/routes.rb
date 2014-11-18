@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     get '/mashups/all' => 'mashups#index_total'
     resources :mashups, except: [:edit, :update]
     put 'mashups/' => 'mashups#update'
+
+    resources :sources, only: [:index]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

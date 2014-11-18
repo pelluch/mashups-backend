@@ -1,5 +1,5 @@
 module AI
-	module Source
+	module Text
 		class WordRelevance
 			attr_accessor :word, :relevance
 		end

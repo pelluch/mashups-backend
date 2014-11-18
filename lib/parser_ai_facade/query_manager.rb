@@ -16,24 +16,25 @@ module ParserAIFacade
 				parsed_result.each do |p|
 					ready_for_ai_json << JSON.parse(p)
 				end
-
+				ready_for_ai_json.shuffle!
 				puts "Parser Listo"
 
 				ai_processor = AI::SourceElementProcessor.new
 				ai_data = ai_processor.build_source_elements(ready_for_ai_json)
-				puts "Fuentes listas"
 				source_elements_by_relevance = ai_processor.get_source_elements_by_relevance(ai_data, query)
-				words_by_relevance = ai_processor.get_words_by_relevance(ai_data, query)
-				puts "Keywords listo"
-
-				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
-				#{:source_elements_by_relevance => source_elements_by_relevance.as_json}
+				puts "Fuentes listas"
 			rescue Exception => e
 				puts ""
 				puts "Error: #{e}"
 				puts ""
 				{:source_elements_by_relevance => [].as_json, :words_by_relevance => [].as_json}
 			end
+				words_by_relevance = ai_processor.get_words_by_relevance(ai_data, query)
+				puts "Keywords listo"
+
+				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
+				#{:source_elements_by_relevance => source_elements_by_relevance.as_json}
+			
 		end
 	end
 end

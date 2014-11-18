@@ -35,11 +35,13 @@ module HTTP
 
             grouped_urls.each do | url_group| 
                 time1 = Time.new
+
                 @conn.in_parallel do
                     url_group.each do |url|
                         responses << raw_post(url, params, opts)
                     end
                 end
+
                 time2 = Time.now
                 sleep_time = time1 - time2 + 1.0
                 if sleep_time > 0

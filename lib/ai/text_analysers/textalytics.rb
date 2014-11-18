@@ -10,7 +10,8 @@ module AI
 			def initialize
 
 				@conn = HTTP::FaradayConnector.new MEDIA_API_HOST
-
+				@counter = 0
+				
 				@source_types = {
 					twitter: "TWITTER",
 					emol: "NEWS"

@@ -70,7 +70,7 @@ module AI
 
 
             words = {}
-
+            
             results.each do |result|
 
                 analysis = result[:result]
@@ -100,7 +100,7 @@ module AI
                 end
             end
 
-            
+
             relevances = get_word_relevances(words).sort_by { |w| -w.relevance }
         end
 

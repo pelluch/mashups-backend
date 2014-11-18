@@ -1,6 +1,6 @@
 class HTTP::Response
 
-    attr_accessor :success, :error, :body, :status, :type, :json
+    attr_accessor :success, :error, :body, :status, :type, :json, :data
 
     def initialize(params = {})
         params.each do |key, value|

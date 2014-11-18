@@ -87,7 +87,7 @@ class Mashup::MashupsController < ApplicationController
         parametros << p
       end
 
-      unless params.has_key? :sources
+      if params.has_key? :sources
         sources = params[:sources]
         #sources = ['twitter']
         sources.delete_if { |a| a == "" } 

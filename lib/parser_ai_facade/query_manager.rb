@@ -2,9 +2,9 @@ module ParserAIFacade
 	class QueryManager
 		# search_params debe ser un arreglo con las fuentes donde se quiere buscar.
 		# Ejemplo: [ "emol", "twitter", "gobierno_de_chile", "cnn" ]
-		def parse_and_filter query, search_params, limit
+		def parse_and_filter query, search_params, timeout, limit
 			source_manager = SourceManager.new
-			parsed_result = source_manager.getData(query, search_params, limit)
+			parsed_result = source_manager.getData(query, search_params, timeout, limit)
 
 			ready_for_ai_json = Array.new
 

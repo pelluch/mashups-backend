@@ -75,7 +75,7 @@ class Mashup::MashupsController < ApplicationController
   def update
     unless params.has_key? :parameters
        params[:parameters] = []
-    else
+    end
       
       @user.reset_temporal
       @user.save
@@ -95,7 +95,7 @@ class Mashup::MashupsController < ApplicationController
       #   sources = ['twitter', 'emol']
       # end
       
-      m.generate(parametros, sources)
+      m.generate(parametros, sources) if parametros.count > 0
       
       m.update(parameters: parametros)
       m.save
@@ -104,7 +104,6 @@ class Mashup::MashupsController < ApplicationController
       respond_to do |format|
         format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
       end
-    end
   end
 
   # DELETE /mashups/1

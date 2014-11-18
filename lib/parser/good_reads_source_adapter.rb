@@ -4,7 +4,7 @@ class GoodReadsSourceAdapter < HtmlSourceAdapter
 
 	def initialize(query_params)
     	#String que contiene las palabras ingresadas por el usuario
-    	query=query_params
+    	@query=query_params
     	super(query_params,create_url(query_params,0))
   	end
 
@@ -30,13 +30,13 @@ class GoodReadsSourceAdapter < HtmlSourceAdapter
 		#offset_text tiene la forma "Resultados 1 al 17 de 8.828"
 		offset_text=current_nokogiri_html.css(".current").text
 		offset=offset_text + 1;
-		@url=create_url(self.query_params,offset)
+		@url=create_url(@query,offset)
 		return getHtml()
 
 	end
 
 	def create_url(query_params=nil,offset=1)
 		query_params=query_params==nil ? @query_params : query_params
-		return URI::encode("https://www.goodreads.com/search?page=#{offset}&q=#{query_params}&search%5Bfield%5D=title&search%5Bsource%5D=goodreads&search_type=quotes&tab=quotes")
+		return URI::encode("https://www.goodreads.com/search?page=#{offset}&q=#{query_params}&search%5Bsource%5D=goodreads&search_type=quotes&tab=quotes")
 	end
 end

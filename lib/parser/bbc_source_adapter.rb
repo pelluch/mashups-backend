@@ -4,7 +4,7 @@ class BBCSourceAdapter < HtmlSourceAdapter
 
 	def initialize(query_params)
     	#String que contiene las palabras ingresadas por el usuario
-    	query=query_params
+    	@query=query_params
     	super(query_params,create_url(query_params,1))
     	@offset = 1
   	end
@@ -31,7 +31,7 @@ class BBCSourceAdapter < HtmlSourceAdapter
 	def nextHtml(current_nokogiri_html)
 		#offset_text tiene la forma "Resultados 1 al 17 de 8.828"
 		@offset= @offset + 10
-		@url=create_url(self.query_params,@offset)
+		@url=create_url(@query,@offset)
 		return getHtml()
 
 	end

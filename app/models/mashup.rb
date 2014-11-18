@@ -19,7 +19,6 @@ class Mashup < ActiveRecord::Base
 		a = ParserAIFacade::QueryManager.new
 		objeto = a.parse_and_filter params2, sources, 10, 6
 
-		#puts objeto[:words_by_relevance]
 
 		objeto[:source_elements_by_relevance][0..15].each do |a|
 			#puts "1.- Hash: #{a}"
@@ -28,11 +27,17 @@ class Mashup < ActiveRecord::Base
 			
 			source = source_elem['source']
 			
-			puts source_elem['description']['type']
+			#puts source_elem['description']['type']
 			id = LinkSource.find_by_name(source_elem['description']['type']).id
 			id = id.to_i
 			Link.create(link: source_elem['description']['url'], title: source_elem['content'], value: relevance, content: source_elem['description']['extra'], mashup_id: self.id, link_source_id: id)
-			
+		end
+
+		objeto[:words_by_relevance][0..20].each do |a|
+			#puts "1.- Hash: #{a}"
+			keyword = a['word']
+			value = a['relevance']
+			Keyword.create(keyword: keyword, value: value, mashup_id: self.id)
 		end
 	end
 

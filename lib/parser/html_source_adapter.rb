@@ -37,8 +37,8 @@ class HtmlSourceAdapter < SourceAdapter
 
   		uri = URI.parse(@url)
 		http = Net::HTTP.new(uri.host, uri.port)
-		http.open_timeout = 5 #Segundos por request
-		http.read_timeout = 5 #Segundos por request
+		http.open_timeout = 10 #Segundos por request
+		http.read_timeout = 10 #Segundos por request
 		response = http.get(uri)
 		page = Nokogiri.parse(response.body)
 

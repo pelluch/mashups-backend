@@ -26,6 +26,22 @@ class GoodReadsSourceAdapter < HtmlSourceAdapter
   		return ret
 	end
 
+  def getHtml
+    uri = URI.parse(@url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE 
+    http.open_timeout = 5 #Segundos por request
+    http.read_timeout = 5 #Segundos por request
+    response = http.get(uri)
+    page = Nokogiri.parse(response.body)
+
+    return page
+
+
+    
+  end
+
 	def nextHtml(current_nokogiri_html)
 		#offset_text tiene la forma "Resultados 1 al 17 de 8.828"
 		offset_text=current_nokogiri_html.css(".current").text

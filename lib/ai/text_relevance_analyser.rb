@@ -65,10 +65,9 @@ module AI
         end
 
 		def analyse_batch(source_elements, query)
-            results = Array.new
-            source_elements.each do |se|
-                results << analyse(se, query)
-            end
+
+            results = algorithms[:textalytics].analyse_text_batch(source_elements, query)
+
 
             words = {}
 
@@ -101,6 +100,7 @@ module AI
                 end
             end
 
+            
             relevances = get_word_relevances(words).sort_by { |w| -w.relevance }
         end
 

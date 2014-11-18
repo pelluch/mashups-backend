@@ -6,6 +6,7 @@ gem 'rails', '4.1.6'
 
 # Easy HTTP Requests
 gem 'faraday', '~> 0.9.0'
+gem 'typhoeus', '~> 0.6.9'
 
 # Consume RSS Feeds
 gem 'simple-rss', '~> 1.3.1'

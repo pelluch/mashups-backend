@@ -25,6 +25,9 @@ module ParserAIFacade
 				#{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
 				{:source_elements_by_relevance => source_elements_by_relevance.as_json}
 			rescue Exception => e
+				puts ""
+				puts "Error: #{e}"
+				puts ""
 				{:source_elements_by_relevance => [].as_json, :words_by_relevance => [].as_json}
 			end
 		end

@@ -4,7 +4,7 @@ RSpec.describe "QueryManager" do
 
     describe :parse_and_filter do
 
-        let(:search_params) { [ "twitter" ]}
+        let(:search_params) { [ "emol", "twitter", "gobierno_de_chile", "cnn" ] }
         let(:query) { "Alexis Sanchez futbol" }        
         let(:limit) { 1 }
         let(:query_manager) { ParserAIFacade::QueryManager.new }

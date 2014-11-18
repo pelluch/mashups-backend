@@ -9,9 +9,9 @@ module AI
             self.algorithms = { :textalytics => textalytics }
         end
 
-		def analyse(source_element, query)
+        def analyse(source_element, query)
             algorithms[:textalytics].analyse_text(source_element, query)
-		end
+        end
 
         # Each element has the following form:
 
@@ -64,45 +64,51 @@ module AI
             relevances
         end
 
-		def analyse_batch(source_elements, query)
+        def analyse_batch(source_elements, query)
 
             results = algorithms[:textalytics].analyse_text_batch(source_elements, query)
 
 
-            words = {}
+            scores = {}
             
             results.each do |result|
 
                 analysis = result[:result]
-                entities = analysis["entities"]
-                categorization = analysis["categorization"]
-                concepts = analysis["concepts"]
 
-
-                entities.each do |entity|
-                    word = entity["form"]
-                    relevance = entity["relevance"]
-                    update_scores(words, word, relevance)
+                if analysis.nil?
+                    next
                 end
 
-                concepts.each do |concept|
-                    word = concept["form"]
-                    relevance = concept["relevance"]
-                    update_scores(words, word, relevance)
-                end
+                criteria = [ "entities", "categorization", "concepts" ]
+                criteria.each do |criterion|
+                    classes = analysis[criterion]
+                    if classes.nil?
+                        next
+                    end
 
-                categorization.each do |category|
-                    labels = category["labels"]
-                    relevance = category["relevance"]
-                    labels.each do |label|
-                        update_scores(words, label, relevance)    
-                    end                    
+                    classes.each do |c|
+
+                        words = []
+                        if criterion == "categorization"
+                            words = c["labels"]
+                        else
+                            words = [ c["form"] ]
+                        end
+
+                        words.each do |word|
+                            if word.nil? or word == ""
+                                next
+                            end
+                            relevance = c["relevance"]
+                            update_scores(scores, word, relevance)
+                        end    
+                    end
+                    
                 end
             end
 
-
-            relevances = get_word_relevances(words).sort_by { |w| -w.relevance }
+            relevances = get_word_relevances(scores).sort_by { |w| -w.relevance }
         end
 
-	end
+    end
 end

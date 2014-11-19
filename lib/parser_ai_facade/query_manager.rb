@@ -33,6 +33,7 @@ module ParserAIFacade
 				puts "Keywords listo"
 				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
 			rescue Exception => e
+				puts e
 				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => [].as_json}
 			end
 				#{:source_elements_by_relevance => source_elements_by_relevance.as_json}

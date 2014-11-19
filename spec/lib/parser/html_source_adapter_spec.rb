@@ -21,10 +21,10 @@ classes.each do |class_|
 			end
 		end
 
-		context 'when I search 5 results and exist' do
-			it "should return 5 results" do
+		context 'when I search 2 results and exist' do
+			it "should return 2 results" do
 				e=class_.new('mario')
-				expect(e.getJSON(10,5).count==5).to be true
+				expect(e.getJSON(10,2).count==2).to be true
 			end
 		end
 
@@ -40,13 +40,6 @@ classes.each do |class_|
 				e=class_.new('mario')
 				url = e.create_url
 				expect(url!=nil).to be true
-			end
-			it "create_url should return an active url" do
-				e=class_.new('mario')
-				url =  URI.parse(e.create_url)
-				req = Net::HTTP.new(url.host, url.port)
-				res = req.request_head(url.path)
-				expect(res.code.to_s=="200").to be true
 			end
 		end
 

@@ -20,10 +20,10 @@ classes.each do |class_|
 			end
 		end
 
-		context 'when I search 5 results and exist' do
-			it "should return 5 results" do
-				e=class_.new('mario')
-				expect(e.getJSON(10,5).count==5).to be true
+		context 'when I search 2 results and exist' do
+			it "should return 2 results" do
+				e=class_.new('gobierno')
+				expect(e.getJSON(10,2).count==2).to be true
 			end
 		end
 

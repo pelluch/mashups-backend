@@ -10,7 +10,12 @@ classes.each do |class_|
 
 	describe class_ do 
 		context 'when I look for parameters that do not exist' do
-			it "should return empty result" do
+			it "should not return null" do
+				e=class_.new('elkjrfnwekjndwelkjndwlkejdnwlqkjndlkwqjnedejkwqdnwqelkj')
+				expect(e.getJSON(10,900)!=nil).to be true
+			end
+
+			it "should return empty array" do
 				e=class_.new('elkjrfnwekjndwelkjndwlkejdnwlqkjndlkwqjnedejkwqdnwqelkj')
 				expect(e.getJSON(10,900).count==0).to be true
 			end
@@ -41,7 +46,7 @@ classes.each do |class_|
 				url =  URI.parse(e.create_url)
 				req = Net::HTTP.new(url.host, url.port)
 				res = req.request_head(url.path)
-				expect(res.code=="200").to be true
+				expect(res.code.to_s=="200").to be true
 			end
 		end
 

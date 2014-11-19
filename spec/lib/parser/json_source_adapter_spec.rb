@@ -10,7 +10,11 @@ classes.each do |class_|
 
 	describe class_ do 
 		context 'when I look for parameters that do not exist' do
-			it "should return empty result" do
+			it "should not return null" do
+				e=class_.new('elkjrfnwekjndwelkjndwlkejdnwlqkjndlkwqjnedejkwqdnwqelkj')
+				expect(e.getJSON(10,900)!=nil).to be true
+			end
+			it "should return empty array" do
 				e=class_.new('elkjrfnwekjndwelkjndwlkejdnwlqkjndlkwqjnedejkwqdnwqelkj')
 				expect(e.getJSON(10,900).count==0).to be true
 			end

@@ -32,6 +32,11 @@ module AI
 				end
 
 				responses = @conn.post_parallel urls
+<<<<<<< HEAD
+=======
+				responses.select! { |response| response.success }
+				
+>>>>>>> staging
 				responses = responses.collect! do |response|
 					{
 						result: response.json["result"]

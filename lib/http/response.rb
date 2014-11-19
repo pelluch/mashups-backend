@@ -7,6 +7,12 @@ class HTTP::Response
             instance_variable_set("@#{key}", value)
         end
 
+        if status != 200
+            self.success = false
+        else
+            self.success = true
+        end
+
         @json ||= parse_json
     end
 

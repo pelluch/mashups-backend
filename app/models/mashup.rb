@@ -30,7 +30,7 @@ class Mashup < ActiveRecord::Base
 			#puts source_elem['description']['type']
 			id = LinkSource.find_by_name(source_elem['description']['type']).id
 			id = id.to_i
-			Link.create(link: source_elem['description']['url'], title: source_elem['content'], value: relevance, content: source_elem['description']['extra'], mashup_id: self.id, link_source_id: id)
+			Link.create(link: source_elem['description']['url'], title: source_elem['description']['type'].gsub("_", " ").split.map(&:capitalize)*' ', value: relevance, content: source_elem['content'], mashup_id: self.id, link_source_id: id)
 		end
 
 		objeto[:words_by_relevance][0..20].each do |a|

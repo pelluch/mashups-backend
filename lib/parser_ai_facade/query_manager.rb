@@ -10,7 +10,6 @@ module ParserAIFacade
 			
 				source_manager = SourceManager.new
 				parsed_result = source_manager.getData(query, search_params, timeout, limit)
-
 				ready_for_ai_json = Array.new
 
 				parsed_result.each do |p|
@@ -29,10 +28,13 @@ module ParserAIFacade
 				puts ""
 				{:source_elements_by_relevance => [].as_json, :words_by_relevance => [].as_json}
 			end
+			begin
 				words_by_relevance = ai_processor.get_words_by_relevance(ai_data, query)
 				puts "Keywords listo"
-
 				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
+			rescue Exception => e
+				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => [].as_json}
+			end
 				#{:source_elements_by_relevance => source_elements_by_relevance.as_json}
 			
 		end

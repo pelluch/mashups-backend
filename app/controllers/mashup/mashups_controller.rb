@@ -71,14 +71,14 @@ class Mashup::MashupsController < ApplicationController
 
   # PATCH/PUT /mashups/
   def update
+    @user.reset_temporal
+    @user.save
     unless params.has_key? :parameters
        params[:parameters] = []
-    end
+    else
+     
       
-      @user.reset_temporal
-      @user.save
       m = @user.temporal
-
 
       parametros = Array.new
       params[:parameters].each do |p|
@@ -98,7 +98,7 @@ class Mashup::MashupsController < ApplicationController
       m.update(parameters: parametros)
       m.save
       
-
+    end
       respond_to do |format|
         format.json { render json: @user.temporal.as_json(include: {:keywords => {}, :links => {include: {:link_source => {}}} }) }     
       end

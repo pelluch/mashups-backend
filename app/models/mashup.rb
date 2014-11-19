@@ -8,7 +8,6 @@ class Mashup < ActiveRecord::Base
 	#validates 	:name, :parameters, presence: true
 	serialize 	:parameters, Array
 
-
 	def generate params, sources
 		params2 = ""
 		
@@ -57,6 +56,5 @@ class Mashup < ActiveRecord::Base
 	    end
 	    m2    
 	end
-
 
 end

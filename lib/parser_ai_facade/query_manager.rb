@@ -29,10 +29,13 @@ module ParserAIFacade
 				puts ""
 				{:source_elements_by_relevance => [].as_json, :words_by_relevance => [].as_json}
 			end
+			begin
 				words_by_relevance = ai_processor.get_words_by_relevance(ai_data, query)
 				puts "Keywords listo"
-
 				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => words_by_relevance.as_json}
+			rescue Exception => e
+				{:source_elements_by_relevance => source_elements_by_relevance.as_json, :words_by_relevance => [].as_json}
+			end
 				#{:source_elements_by_relevance => source_elements_by_relevance.as_json}
 			
 		end
